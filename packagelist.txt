@@ -28,3 +28,5 @@ nvidia-utils
 opencl-nvidia
 yt-dlp
 neovim
+alsa-card-profiles
+rofi
