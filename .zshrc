@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$HOME/Dev/src/flutter/bin:/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/emulator:$PATH
+export PATH=$HOME/.scripts/bash:$HOME/Dev/src/flutter/bin:/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/emulator:$PATH
 export ANDROID_SDK_ROOT=/opt/android-sdk
 
 # Path to your oh-my-zsh installation.
@@ -113,7 +113,7 @@ alias ..="cd .."
 
 alias yt-audio='yt-dlp -f "bestaudio/best" -ciw -o "%(title)s.%(ext)s" -v --extract-audio --audio-quality 0 --audio-format mp3'
 
-alias yt-audio-channel='yt-dlp -f "bestaudio/best" -ciw -o "%(title)s.%(ext)s" -v --extract-audio --audio-quality 0 --audio-format mp3'
+alias yt-audio-channel='yt-dlp --concurent-fragments=5 -f "bestaudio/best" -ciw -o "%(title)s.%(ext)s" -v --extract-audio --audio-quality 0 --audio-format mp3'
 
 alias yt-audio-direct='yt-dlp "bestaudio/best" -ciw -o "%(title)s.%(ext)s" -v --extract-audio --audio-format mp3 --audio-quality 0  --yes-playlist'
 

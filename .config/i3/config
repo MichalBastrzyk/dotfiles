@@ -52,9 +52,17 @@ exec_always --no-startup-id $HOME/.config/picom/launch.sh
 exec_always --no-startup-id wal -R
 
 
-bindsym XF86AudioRaiseVolume exec amixer -c 2 sset PCM 5%+ 
-bindsym XF86AudioLowerVolume exec amixer -c 2 sset PCM 5%- 
+bindsym XF86AudioRaiseVolume exec amixer -c 2 sset PCM 2%+ 
+bindsym XF86AudioLowerVolume exec amixer -c 2 sset PCM 2%- 
 bindsym XF86AudioMute exec amixer -c 2 sset PCM toggle 
+
+#
+## MUSIC SHORTCUTS
+#
+
+bindsym XF86AudioPause exec mpc toggle
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
 
 
 
