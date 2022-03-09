@@ -10,7 +10,7 @@
 
 - Install fish using your distribution package manager.
 - Install fisher
-  sh`curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher`
+  bash`curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher`
 - Install these using fisher
-  sh`fisher install jorgebucaran/nvm.fish`
-  sh`fisher install IlanCosman/tide@v5`
+  bash`fisher install jorgebucaran/nvm.fish`
+  bash`fisher install IlanCosman/tide@v5`
