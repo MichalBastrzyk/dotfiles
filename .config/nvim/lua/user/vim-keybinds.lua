@@ -1,6 +1,7 @@
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+-- NORMAL MODE
 map('n', 'vs', ':vs<CR>', opts)
 map('n', 'sp', ':sp<CR>', opts)
 map('n', '<C-L>', '<C-W><C-L>', opts)
