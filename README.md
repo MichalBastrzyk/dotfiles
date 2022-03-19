@@ -6,7 +6,7 @@
 
 - Install neovim, luajit, tree-sitter using your package manager.
 
-## Required fish setup
+## Required for fish setup
 
 - **Install fish using your distribution package manager.**
 - **Install fisher** \
@@ -14,3 +14,8 @@
 - **Install these using fisher** \
    `fisher install jorgebucaran/nvm.fish` \
    `fisher install IlanCosman/tide@v5`
+
+## Required for rofi setup
+- **Install rofi themes.** \
+  https://github.com/adi1090x/rofi
+- **Bind launch scripts**
