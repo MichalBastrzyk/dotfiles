@@ -17,5 +17,5 @@
 
 ## Required for rofi setup
 - **Install rofi themes.** \
-  https://github.com/adi1090x/rofi
+  `git clone --depth=1 https://github.com/adi1090x/rofi`
 - **Bind launch scripts**
