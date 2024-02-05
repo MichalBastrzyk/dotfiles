@@ -1,0 +1,4 @@
+#!/bin/bash
+
+yt-dlp --get-id "$1" \
+  | xargs -n 1 -I {} -P 10 yt-dlp -x --audio-format opus --audio-quality 0 --embed-metadata --embed-thumbnail --sponsorblock-mark all 'https://youtube.com/watch?v={}'
