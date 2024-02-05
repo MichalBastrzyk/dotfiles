@@ -1,0 +1,1014 @@
+echo $GOROOT
+	which go
+nvim .zshenv
+go env -w GOPATH=$HOME/.local/go
+ll
+clear
+..
+cd
+ll
+rm -rf go
+clear
+ll
+ll
+ll
+ll
+ll
+ll
+ll
+ll
+ll
+ll Screen\ Studio\ Projects
+ll
+ll
+rm -rf Screen\ Studio\ Projects
+ll
+ll
+ll
+ll
+ll
+ll
+ll
+ll
+cd ./lo
+cd .local
+ll
+go env -w GOPATH=$HOME/.local/share/go
+ll
+cd share
+ll
+ll
+cd dev
+l
+cd go
+ll
+ll
+clear
+rm -rf go
+rm -rf hello
+clear
+ll
+mkdir hello 
+cd hello
+go init
+go --help
+go mod init
+..
+go mod init example.com/m/v2
+ll
+rm -rf go.mod
+cd hello
+go mod init example.com/m/v2
+ll
+nvim go.mod
+ll
+ll
+ll
+ll
+ll
+ll
+nvim main.go
+clear
+tmux 
+cd /Users/michal/Downloads/mi9t/davinci_eea_global_images_V12.1.1.0.RFJEUXM_20210903.0000.00_11.0_eea\
+
+ll
+source ~/.zshenv
+ll
+clear
+fastboot
+clear
+dsfaf
+clear
+fastboot -help
+fastboot -l
+fastboot devices
+ll
+./flash_all.sh
+cd
+cd .local
+l
+cd share
+l
+cd go
+ll
+..
+ll
+cd go
+l
+cd bin
+l
+l
+pwd
+pwd | pbcopy
+v ~/.config/zsh/.zshenv
+source ~/.zshenv
+clear
+ll
+ll
+..
+air
+ncu -u
+bun i
+git diff | pbcopy
+git diff
+git status
+git status | pbcopy
+git diff --help
+git diff --raw
+git diff src/
+git diff -- src
+kk
+ll
+lg
+clear
+ll
+clear
+ll
+clealr
+ll
+clealr
+ll
+clear
+bun add vite-plugin-pwa -D
+bun run dev
+ll
+..
+clear
+llc
+clear
+ll
+clear
+ll
+l
+clear
+ll
+ll
+clear
+bun run lint
+cd comicz-reader
+ll
+clear
+bun run lint
+bun run lint
+bun run lint
+bun run lint
+bun run lint
+la
+clear
+bun run lint
+bun run format:write
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ncu -u
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+bat package.json
+gaa
+gc "docs: Updated README.md"
+clear
+ll
+ll
+clear
+ll
+clear
+bun run dev
+bun add @generouted/react-router react-router-dom
+bun run dev
+bun run build
+bun run build
+bun run preview
+bun run dev
+bun run dev
+bun run preview
+bun run preview
+bun run dev
+bun i --build-from-source
+pn i --build-from-source
+rm -rf dist node_modules bun.lockb
+clear
+npm install
+ll
+ll
+ll
+clear
+npm install -D --build-from-source
+npm install -D --build-from-source sharp
+npm run 
+npm run generate-pwa-assets
+bun run generate-pwa-assets
+rm -rf node_modules
+ll
+clear
+ll
+clear
+ll
+clear
+bun i
+clear
+bun run generate-pwa-assets
+npm install -D --build-from-source sharp
+bun run generate-pwa-assets
+clear
+ll
+clear
+rm -rf node_modules package-lock.json
+clear
+ll
+clear
+pn i
+pn generate-pwa-assets
+clear
+ll
+cler
+ll
+clear
+ll
+clear
+clear
+pn run preview
+pn i
+pn run dev
+pn run build
+pn add -D workbox-window
+clear
+ncu -u
+clear
+pn run preview
+pn generate-pwa-assets
+pn preview
+pn preview
+pn run dev
+git commit --no-edit --amend
+clear
+ll
+cler
+clear
+ll
+clear
+ll
+clear
+git commit --no-edit --amend
+clear
+ll
+clear
+ll
+clear
+bun add -D @vite-pwa/assets-generator
+bun run generate-pwa-assets
+v
+air
+clear
+air init
+clear
+v
+clear
+air
+celar
+clear
+ll
+clear
+cd dev/go
+ll
+clear
+cd hello
+tmux a
+tmux 
+tmux kill-server
+echo $ARCH
+uname -a
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+(echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> ~/.zprofile\
+eval "$(/usr/local/bin/brew shellenv)"
+which brew\
+
+brew tap apple/apple http://github.com/apple/homebrew-apple
+brew -v install apple/apple/game-porting-toolkit\
+
+brew tap gcenx/homebrew-apple
+brew install gcenx/wine/game-porting-toolkit\
+
+  echo 'export PATH="/usr/local/opt/game-porting-toolkit/bin:$PATH"' >> ~/.zshrc
+nvim ~/.zshrc
+ll
+rm -rf ~/.zshrc
+ll
+clear
+source ~/.zshenv
+v ~/.config/zsh/.zshenv
+source ~/.zshenv
+gameportingtoolkit
+gameportingtoolkit
+source ~/.config/zsh/.zshenv
+gameportingtoolkit
+cd /usr/local/opt/game-porting-toolkit
+ll
+cd bin
+ll
+ll
+ll
+..
+ll
+ll
+ll
+cd bin
+ll
+brew update && brew upgrade gcenx/wine/game-porting-toolkit
+ll
+ll
+uname -a
+brew update && brew uninstall gcenx/wine/game-porting-toolkit
+brew list
+brew tap list
+brew tap -l
+brew taps
+softwareupdate --install-rosetta
+brew tap apple/apple http://github.com/apple/homebrew-apple
+brew -v install apple/apple/game-porting-toolkit
+arch -x86_64 zsh
+killall Dock
+clear
+cd Desktop/betclick
+ll
+ytv "https://youtu.be/0FmHSYG6pGE"
+ll
+ll
+ll
+ll
+ll
+ll
+ll
+open ðƒ¿ƒ´´OglÄƒ¥damy\ POLSKA\ vs\ CHILE\ i\ rozdajemy\ FREEBETYðƒ¿ƒ²°\ \[uN-Gwcg6ukY\].mkv
+open ðƒ¿ƒ¸±\ Reakcje\ na\ ANGLIA\ â€ƒ³\ FRANCJA\ ï½ƒ¼\ Czajnik,\ Justek,\ Ostry\ i\ ZwykÅ‚y\ Kibic\ \[0FmHSYG6pGE\].mkv
+clear
+ll
+clear
+v temp.txt
+clear
+ll
+cd
+cd Desktop
+ll
+clear
+mkdir betclick
+ll
+clear
+ll
+clear
+ll
+clear
+cd betclick
+clear
+ytv "https://youtu.be/tF8M6YLauKE"
+ll
+cd Desktop/betclick
+ll
+clear
+ytv "https://youtu.be/uN-Gwcg6ukY"
+ll
+v temp.txt
+v temp2.txt
+clear
+clear
+pn i
+clear
+pn run dev
+pn run dev
+pn run preview
+pn run preview
+pn run preview
+pn run format:write
+pn run
+pn run db:studio
+pn add -D mysql2
+pn run db:studio
+ll
+ll
+clear
+..
+ll
+clear
+mkdir vimeo-downloader
+cd vimeo-downloader
+ll
+clear
+yt-dlp "https://player.vimeo.com/video/798516789?h=a805ea259f" --referer "WEBPAGE"\
+
+yt-dlp "https://player.vimeo.com/video/798516789?h=a805ea259f"
+yt-dlp "https://player.vimeo.com/video/475987320?autoplay=1&dnt=1&app_id=122963"
+yt-dlp "https://player.vimeo.com/video/475987320?autoplay=1&dnt=1&app_id=122963" -N
+yt-dlp -N
+yt-dlp -help
+yt-dlp "https://player.vimeo.com/video/475987320?autoplay=1&dnt=1&app_id=122963" -N 4
+ll
+rm -rf Triumph\ Gaming\ \ ï½ƒ¼\ Apex\ Legends\ Preseason\ Invitational\ Krakow\ 2019\ \[475987320\].mp4.part
+clear
+ll
+clear
+clear
+ll
+clear
+ll
+clear
+python3 /tmp/test.py
+python3 /tmp/test.py
+clear
+flutter i
+flutter run ios
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+/opt/homebrew/bin/python3 /tmp/test.py
+v /tmp/test.py
+v
+v /tmp/test.py
+code /tmp/test.py
+python3 /tmp/test.py
+python3 /tmp/test.py
+brew install flutter
+cd
+cd dev/flutter
+ll
+git clone git@github.com:MichalBastrzyk/covidApp.git
+cd covidApp
+ll
+clear
+flutter 
+code .
+cd
+cd dev/real-projects/bastrzykcom
+clear
+ll
+ll
+ll
+..
+cd michalbastrzyk
+ll
+cd michalbastrzykcom
+ll
+clear
+cd assets/videos
+ll
+ffmpeg -i bastrzykcom.mov -c:v libvpx-vp9 -b:v 1M -c:a libvorbis -q:a 4 bastrzykcom.webm
+ffmpeg -i bastrzykcom.mov -c:v libvpx-vp9 -b:v 1M -c:a libvorbis -q:a 4 -preset ultrafast bastrzykcom.webm
+ffmpeg -i bastrzykcom.mov -c:v libvpx-vp9 -b:v 1M -c:a libvorbis -q:a 4 -preset ultrafast -vcodec hevc_videotoolbox bastrzykcom.webm
+ffmpeg -i bastrzykcom.mov -c:v libvpx-vp9 -b:v 1M -vcodec hevc_videotoolbox -allow_sw 1 -q:a 4 -preset ultrafast bastrzykcom.webm
+rm -rf bastrzykcom.webm
+ffmpeg -i bastrzykcom.mov -c:v libvpx-vp9 -b:v 1M -vcodec hevc_videotoolbox -allow_sw 1 -q:a 4 -preset ultrafast bastrzykcom.webm
+ffmpeg -i bastrzykcom.mov -c:v libvpx-vp9 -b:v 1M -vcodec h264_videotoolbox -allow_sw 1 -q:a 4 -preset ultrafast bastrzykcom.webm
+ffmpeg -i bastrzykcom.mov -c:v libvpx-vp9 -b:v 1M -c:a libvorbis -q:a 4 -preset ultrafast bastrzykcom.webm
+ffmpeg -i "bastrzykcom.mov" -vcodec hevc_videotoolbox -b:v 500k -n "bastrzykcom-output.mov"
+brew search videotoolbox
+ll
+rm -rf bastrzykcom-output.mov
+ffmpeg -i bastrzykcom.mov -vf scale=960x720 -c:v h264_videotoolbox -b:v 10M bastrzykcom-output.mp4
+l
+rm -rf bastrzykcom-output.mov
+ffmpeg -i bastrzykcom.mov -vf scale=960x720 -c:v h264_videotoolbox -b:v 10M bastrzykcom-output.webm
+ffmpeg -i bastrzykcom.mov -vf scale=960x720 -c:v videotoolbox -b:v 10M bastrzykcom-output.webm
+ffmpeg -i bastrzykcom.mov -vf scale=960x720 -c:v hevc_videotoolbox -b:v 10M bastrzykcom-output.webm
+ffmpeg -i bastrzykcom.mov -vf scale=960x720 -c:v hevc_videotoolbox -b:v 10M -allow_sw 1  bastrzykcom-output.webm
+i
+clear
+brew search handbrake
+brew install --cask handbrake
+killall Dock
+ll
+mpv --no-audio --frames=1 bastrzykcom.mp4 bastrzykcom-poster.png
+l
+mpv --no-audio --frames=1 bastrzykcom.mp4 --o=bastrzykcom-poster.png
+ll
+ll
+open bastrzykcom-poster.png
+clear
+ll
+clear
+cd
+cd dev/real-projects/personal-trainer-app-next-pwa
+clear
+ll
+clear
+bun run preview
+clear
+lcear
+clear
+bun run dev
+pwd
+pwd | pbcopy
+pn dev
+pn run dev
+pn run preview
+pn run preview
+pn run preview
+pn run preview\ 
+pn run preview\ 
+pn run preview
+clear
+pn run dev
+celar
+ll
+clear
+rm -rf .next node_modules
+pn i
+pn run dev
+cleaf
+clear
+ll
+clear
+lg
+ncu
+ll
+ll
+v /tmp/st.css
+cd dev/real-projects/personal-trainer-app-next-pwa
+ll
+pn run db:studio
+pn run db:studio
+cd /Users/michal/dev/real-projects/personal-trainer-app-next-pwa\
+
+v
+clear
+v
+clear
+claer
+ll
+clear
+ll
+clear
+ping google.com
+clear
+l
+clear
+ll
+clear
+ll
+clear
+llcl
+clear
+ll
+clear
+llc
+elar
+clear
+clear
+c;ear
+clear
+brew update && brew upgrade
+brew bundle dump
+clear
+brew update && brew upgrade
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+clear
+brew list
+clear
+brew update && brew upgrade
+brew list
+echo $ARCH
+uname -a
+brew remove game-porting-toolkit
+brew update && brew upgrade
+brew remove gcenx/wine/game-porting-toolkit
+brew update
+brew upgrade
+brew list
+brew remove zlib freetype sdl2 libgphoto2 faudio jpeg libpng mpg123 libtiff libgsm glib gnutls libusb gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 libgphoto2 faudio jpeg libpng mpg123 libtiff libgsm glib gnutls libusb gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 libgphoto2 faudio jpeg libpng mpg123 libtiff libgsm glib gnutls libusb gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 faudio jpeg libpng mpg123 libtiff libgsm glib gnutls libusb gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 jpeg libpng mpg123 libtiff libgsm glib gnutls libusb gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 libpng mpg123 libtiff libgsm glib gnutls libusb gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 libpng mpg123 libtiff glib gnutls libusb gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 libpng mpg123 libtiff glib gnutls gettext openssl@1.1 sane-backends
+brew remove freetype sdl2 libpng mpg123 libtiff glib gnutls gettext sane-backends
+brew remove freetype sdl2 libpng mpg123 libtiff glib gnutls gettext
+brew upgrade
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+clear
+ll
+source ~/.zshenv
+clear
+ll
+clear
+brew upgrade
+claer
+ls
+ll
+npm i gsap
+cd dev/learning/nodecg/test2
+ll
+ll
+cd bundles/my-first-bundle
+v
+..
+l.
+..
+ll
+v
+l
+npm run start
+npm run start
+npm run watch
+npm i
+npm run watch
+npm run build
+clear
+ll
+clear
+ll
+ll
+ll
+clear
+brew update && brew upgrade
+brew update
+brew list --help
+brew list -l
+brew list
+brew list --help
+clear
+cd dev
+ll
+clear
+git clone --depth 1 --branch v2.1.0 https://github.com/nodecg/nodecg.git\
+
+cd nodecg
+ll
+npm i
+npm run build
+ll
+cd build
+ll
+cd client
+ll
+..
+..
+clear
+npm run
+..
+rm -rf nodecg
+cd oss
+..
+cd learning
+l
+clear
+mkdir nodecg
+cd nodecg
+l
+npm install --global nodecg-cli@latest\
+
+mkdir test1
+cd test1
+nodecg setup
+ll
+node index.js
+nodecg install lange/lange-notify\
+\
+
+nodecg install https://github.com/anarcho-loneliness/lange-notify.git
+npm install -g bower
+nodecg install lange/lange-notify\
+nodecg install "supportclass/lfg-filter#^4.0.0"\
+nodecg install "supportclass/lfg-nucleus#^4.0.0"
+nodecg install https://github.com/anarcho-loneliness/lange-notify.git
+ll
+ll
+ll
+ll
+..
+rm -rf test1
+mkdir test2
+cd test2
+ll
+clear
+nodecg setup
+ll
+ll
+cd bundles
+l
+..
+l
+npm install --global yo generator-nodecg
+cd bundles
+mkdir my-first-bundle
+cd my-first-bundle
+yo nodecg
+npm run dev
+npm run dev
+..
+l
+cd nodecg-vue-ts-template
+v
+clear
+ll
+clear
+brew search obs
+brew install --cask obs
+cd dev/learning/nodecg/test2
+cd bundles
+git clone https://github.com/zoton2/nodecg-vue-ts-template.git
+cd nodecg-vue-ts-template
+l
+npm i
+npm run dev
+npm run
+npm run watch
+npm run watch:browser
+npm run 
+npm run watch
+tmux
+pwd
+clear
+ll
+clear
+ll
+clea
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+npm i
+clear
+ll
+clear
+npm run dev
+npx update-browserslist-db@latest
+clera
+ll
+celar
+clear
+ncu
+clear
+npm run dev
+clear
+git branch svelte-4
+git checkout svelte-4
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+rm -rf *
+tr -rf *
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+ll
+gs 
+clear
+bun create svelte@latest .
+bun i
+ncu -u
+bun i
+bun run dev
+bunx svelte-add@latest tailwindcss
+bun i
+bunx shadcn-svelte@latest init
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+ncu -u
+bun i
+clear
+ll
+ncu
+clear
+ll
+bun run dev
+bun i svelte-persisted-store
+clear
+ll
+clear
+ll
+clear
+ll
+clear
+bun run dev
+bun run dev
+bun run dev
+bun run dev
+clear
+bun run dev
+clear
+bun run build && bun run preview
+bun run build && bun run preview
+clear
+git checkout master
+clear
+git pull
+git fetch
+clear
+git branch -d svelte-4
+clear
+ll
+clear
+ll
+clear
+gs
+git branch -a
+clear
+ll
+clear
+git branch -a
+git push origin -d svelte-4
+git push origin -d wow
+git push origin -d dev-tauri
+clear
+ll
+ce
+clear
+git fetch
+clear
+ll
+git branch -a
+clear
+bun add -D vite@4
+clear
+ll
+clear
+gaa
+gc "fix: Fixed sveltekit required version"
+clear
+ll
+clear
+git push origin master
+clear
+ll
+clear
+clear
+ll
+clear
+rm -rf bun.lockb
+clear
+rm -rf .svelte-kit node_modules
+clear
+bun i
+gaa
+gc --amend --no-edit
+clear
+ll
+clearl
+git push origin master
+bun run lint
+bun run format
+clear
+bun run lint
+bunx shadcn-svelte@latest add accordion\
+
+bunx shadcn-svelte@latest add radio-group
+clear
+ll
+c
+earl
+ll
+clear
+ll
+claer
+bunx shadcn-svelte@latest add label
+bunx shadcn-svelte@latest add button
+clear
+ll
+clear
+npx shadcn-svelte@latest add separator
+bunx shadcn-svelte@latest add separator
+bun add -D @tailwindcss/typography
+bunx shadcn-svelte@latest add card
+bunx shadcn-svelte@latest add input
+bunx shadcn-svelte@latest add slider
+bunx shadcn-svelte@latest add tabs
+bun run lnit
+clear
+bun run lint
+bun run check
+bun run check:watch
+clear
+bunx shadcn-svelte@latest add switch
+clear
+ll
+clear
+clear
+ll
+clear
+cd assets/videos
+ll
+cler
+clera
+clear
+clear
+ffmpeg -i whiteboxstudio.mov -c:v libvpx-vp9 -b:v 1M -c:a libvorbis -q:a 4 whiteboxstudio.webm
+ffmpeg -i whiteboxstudio.mov -c:v libvpx-vp9 -b:v 1M -c:a libvorbis -q:a 4 whiteboxstudio.webm
+l
+open whiteboxstudio.webm
+..
+..
+clear
+gs
+gaa
+gs
+gc "fix: Fixed autoplay in safari"
+clear
+ll
+clear
+git push
+git commit --no-edit --amend
+gc "fix: Fixed menu not taking up full screen"
+clear
+ll
+clear
+git push --force
+clear
+cd
+cd Documents
+ll
+..
+ll
+cd Documents
+l
+clear
+mkdir j-polski
+cd j-polski
+clear
+v tyle-wiemy-na-ile-nas-sprawdzono.md
+brew search upscayl
+cd Downloads
+v whiteboxstudio.pl.txt
+ssh u311972@s15.zenbox.pl
+ssh u311972@s15.zenbox.pl
+sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+clear
+dig wbs.studio
+dig 'http://wbs.studio'
+dig wbs.studio
+ssh u311972@s15.zenbox.pl
+ssh u311972@s15.zenbox.pl
+ssh u311972@s15.zenbox.pl
+ssh u311972@s15.zenbox.pl
+v
+claer
+ls
+clear
+ls
+clear
+brew search lossless-cut
+brew install losslesscut
+dig wbs.studio
+traceroute wbs.studio

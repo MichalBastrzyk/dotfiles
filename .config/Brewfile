@@ -1,0 +1,58 @@
+# taps
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+
+brew "noti" # utility to display notifications from scripts
+brew "trash" # rm, but put in the trash rather than completely delete
+
+# Applications
+# cask "alacritty" # a better terminal emulator
+# cask "rectangle"
+# cask "karabiner-elements" # keyboard rebinding software
+
+# cask "pika"
+# cask "google-chrome"
+
+# Fonts
+# cask "font-fira-code"
+# cask "font-jetbrains-mono"
+# cask "font-cascadia-mono"
+# cask "font-3270-nerd-font"
+
+tap "homebrew/bundle"
+tap "homebrew/core"
+
+# packages
+brew "eza" # better ls
+brew "bat" # better cat
+brew "fd" # find alternative
+brew "fzf" # Fuzzy file searcher, used in scripts and in vim
+brew "gh" # GitHub CLI
+brew "git" # Git version control (latest version)
+brew "gnupg" # GPG
+brew "grep" # grep (latest)
+brew "htop" # a top alternative
+brew "neovim" # A better vim
+brew "pyenv" # A python enviroment manager
+brew "fnm" # node version manager
+brew "ripgrep" # very fast file searcher
+brew "fnm" # Fast Node version manager
+brew "tmux" # terminal multiplexer
+brew "wget" # internet file retriever
+brew "zsh" # zsh (latest)
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+brew "zsh-vi-mode"
+brew "yt-dlp"
+brew "yadm" # Dotfile manager
+brew "starship"
+
+## JS Development
+
+## Install bun.sh
+tap "oven-sh/bun"
+brew "bun"
+
+cask "mpv"
+brew "ffmpeg"
+cask "handbrake"

@@ -1,0 +1,27 @@
+ll
+ls
+brew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew 
+    eval "$(/opt/homebrew/bin/brew shellenv)"\
+
+bre
+brew
+brew bundle --file=~/.config/Brewfile
+brew bundle --file=~/.config/Brewfile
+yadm
+clear
+ls
+clear
+ls
+nvim ~/.config/zsh/.zshrc
+ckear
+ks
+ckear
+ls
+clear
+ls
+ls
+ls -la
+clear
+vim ~/.config/zsh
