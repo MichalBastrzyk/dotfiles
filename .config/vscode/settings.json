@@ -1,10 +1,51 @@
 {
-    "github.copilot.enable": {
-        "*": true
-    },
-    "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
-    "editor.fontSize": 14,
-    "editor.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
-    "terminal.integrated.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
-    "terminal.integrated.fontSize": 14
+  "editor.formatOnSave": true,
+  // Fonts and Themes
+  "editor.fontSize": 14,
+  "editor.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 14,
+  // Color Theme
+  "workbench.colorTheme": "GitHub Dark Default",
+  // Icons
+  "workbench.iconTheme": "catppuccin-macchiato",
+  "workbench.productIconTheme": "icons-carbon",
+  // Sidebar and Activity Bar Location
+  "workbench.sideBar.location": "right",
+  "workbench.activityBar.location": "top",
+  // Hide useless UI elements
+  "editor.minimap.enabled": false,
+  "workbench.externalBrowser": "google-chrome",
+  "workbench.editor.showTabs": "single",
+  "window.commandCenter": false,
+  "breadcrumbs.enabled": false,
+  // Copilot
+  "github.copilot.advanced": {
+    "experimentalFeatures": {
+      "enableExperimentalFeatures": true,
+      "enableExperimentalFeaturesForAllUsers": true
+    }
+  },
+  "github.copilot.enable": {
+    "*": true
+  },
+  "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
