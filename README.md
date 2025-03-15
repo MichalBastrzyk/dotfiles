@@ -71,6 +71,11 @@ After installation, your dotfiles will be symlinked to the appropriate locations
 switch
 ```
 
+This will:
+- Update Homebrew packages
+- Install new Homebrew packages listed in the Brewfile
+- Create symlinks for your dotfiles
+
 ## Customization
 
 Feel free to fork this repository and modify it according to your preferences. The modular structure makes it easy to add or remove configurations.
