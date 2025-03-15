@@ -1,4 +1,8 @@
 .git
+.gitignore
 .DS_Store
 Brewfile
+README.md
+LICENSE
 
+.config/vscode

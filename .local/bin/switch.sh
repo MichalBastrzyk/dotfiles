@@ -47,6 +47,13 @@ else
   print_error "Failed to link configurations"
 fi
 
+print_status "Linking vscode settings"
+if ln -sf "$DOTFILES_DIR/.config/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"; then
+  print_success "Done"
+else
+  print_error "Failed to link VSCode settings"
+fi
+
 cd "$cwd" || print_error "Failed to return to original directory"
 
 print_success "All operations completed successfully!"

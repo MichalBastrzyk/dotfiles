@@ -1,0 +1,10 @@
+{
+    "github.copilot.enable": {
+        "*": true
+    },
+    "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
+    "editor.fontSize": 14,
+    "editor.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontSize": 14
+}
