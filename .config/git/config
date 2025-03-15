@@ -1,0 +1,7 @@
+[user]
+	name = Michał Bastrzyk
+	email = michal.bastrzyk.pl@gmail.com
+	username = MichalBastrzyk
+
+[init]
+	defaultBranch = master

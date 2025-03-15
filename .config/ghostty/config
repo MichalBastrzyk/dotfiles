@@ -1,0 +1,4 @@
+theme = github-dark-default
+
+shell-integration = none
+font-family = "JetBrains Mono"
