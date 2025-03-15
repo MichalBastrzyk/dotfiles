@@ -34,6 +34,12 @@ chmod +x .local/bin/switch.sh
 ./.local/bin/switch.sh
 ```
 
+Optional: Run this to fix dock slowly appearing.
+
+```sh
+defaults write com.apple.dock autohide-time-modifier -float 0.50; killall Dock
+```
+
 ## What's Included
 
 ### Shell Configuration
