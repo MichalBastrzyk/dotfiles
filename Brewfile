@@ -1,3 +1,4 @@
+#
 # utilities
 brew "zoxide" # better cd
 brew "eza" # better ls
@@ -27,6 +28,10 @@ cask "whatsapp"
 ## Coding
 cask "visual-studio-code"
 cask "ghostty" 
+
+tap  "oven-sh/bun"
+brew "oven-sh/bun/bun"
+brew "fnm"
 
 # Fonts
 
