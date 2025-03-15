@@ -1,4 +1,4 @@
-Collecting workspace information# Dotfiles
+# Dotfiles
 
 A personal collection of configuration files for my development environment. This repository contains configurations for various tools and applications that I use regularly.
 
