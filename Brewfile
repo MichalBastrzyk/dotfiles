@@ -1,5 +1,5 @@
-#
 # utilities
+brew "stow" # symlink manager
 brew "zoxide" # better cd
 brew "eza" # better ls
 brew "bat" # better cat
@@ -9,11 +9,9 @@ brew "gh" # GitHub CLI
 brew "git" # Git version control (latest version)
 brew "gnupg" # GPG
 brew "grep" # grep (latest)
-brew "htop" # a top alternative
 brew "neovim" # A better vim
 brew "tree-sitter" # Better code highlighting for neovim
 brew "ripgrep" # very fast file searcher
-brew "tmux" # terminal multiplexer
 brew "wget" # internet file retriever
 brew "zsh" # zsh (latest)
 brew "lazygit" # terminal UI for git
