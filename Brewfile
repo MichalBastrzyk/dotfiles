@@ -15,6 +15,7 @@ brew "ripgrep" # very fast file searcher
 brew "wget" # internet file retriever
 brew "zsh" # zsh (latest)
 brew "lazygit" # terminal UI for git
+brew "starship" # A prompt for zsh
 
 # GUI
 cask "logi-options+"
