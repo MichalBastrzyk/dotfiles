@@ -15,6 +15,8 @@ alias ll="eza -l --icons --git --group-directories-first"
 alias la="eza -l --icons --git --group-directories-first -a"
 alias lsd="eza -l --icons --git --group-directories-first -s date"
 
+alias lg="lazygit"
+
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
