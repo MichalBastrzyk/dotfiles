@@ -19,13 +19,19 @@ brew "lazygit" # terminal UI for git
 # GUI
 cask "logi-options+"
 cask "google-chrome"
+cask "firefox"
 cask "messenger"
 cask "discord"
 cask "whatsapp"
+cask "slack"
+cask "appcleaner"
+
+cask "spotify"
 
 ## Coding
 cask "visual-studio-code"
 cask "ghostty" 
+cask "tableplus"
 
 tap  "oven-sh/bun"
 brew "oven-sh/bun/bun"
