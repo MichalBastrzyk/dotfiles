@@ -4,6 +4,23 @@
 <dict>
     <key>Label</key>
     <string>com.local.KeyRemapping</string>
+    <key>LaunchEvents</key>
+    <dict>
+        <key>com.apple.iokit.matching</key>
+        <dict>
+            <key>com.apple.bluetooth.hostController</key>
+            <dict>
+                <key>IOProviderClass</key>
+                <string>IOBluetoothHCIController</string>
+                <key>idProduct</key>
+                <integer>0x24f</integer>
+                <key>idVendor</key>
+                <integer>0x5ac</integer>
+                <key>IOMatchLaunchStream</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/hidutil</string>
