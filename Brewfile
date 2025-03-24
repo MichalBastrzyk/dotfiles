@@ -36,6 +36,10 @@ cask "tableplus"
 
 tap  "oven-sh/bun"
 brew "oven-sh/bun/bun"
+
+# Golang
+brew "go"
+
 brew "fnm"
 
 # Fonts
