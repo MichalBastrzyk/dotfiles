@@ -43,6 +43,8 @@ brew "oven-sh/bun/bun"
 # Golang
 brew "go"
 
+tap  "tursodatabase/tap"
+brew "tursodatabase/tap/turso"
 brew "fnm"
 
 # Fonts
