@@ -26,7 +26,9 @@ cask "discord"
 cask "whatsapp"
 cask "slack"
 cask "appcleaner"
-
+cask "obsidian"
+cask "raycast"
+cask "handbrake"
 cask "spotify"
 
 ## Coding
