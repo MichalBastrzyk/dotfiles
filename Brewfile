@@ -40,6 +40,9 @@ cask "orbstack"
 tap  "oven-sh/bun"
 brew "oven-sh/bun/bun"
 
+# Python
+brew "uv"
+
 # Golang
 brew "go"
 
