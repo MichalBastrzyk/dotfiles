@@ -1,3 +1,5 @@
 .config/zsh/.zsh_history
 .config/.wrangler/logs
 .config/zsh/.zsh_sessions
+.config/configstore
+.config/raycast/extensions
