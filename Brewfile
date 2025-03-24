@@ -33,6 +33,7 @@ cask "spotify"
 cask "visual-studio-code"
 cask "ghostty" 
 cask "tableplus"
+cask "orbstack"
 
 tap  "oven-sh/bun"
 brew "oven-sh/bun/bun"
