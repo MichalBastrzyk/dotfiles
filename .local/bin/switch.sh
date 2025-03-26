@@ -54,6 +54,13 @@ else
   print_error "Failed to link VSCode settings"
 fi
 
+print_status "Linking Cursor settings"
+if ln -sf "$DOTFILES_DIR/.config/cursor/settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"; then
+  print_success "Done"
+else
+  print_error "Failed to link Cursor settings"
+fi
+
 cd "$cwd" || print_error "Failed to return to original directory"
 
 print_success "All operations completed successfully!"

@@ -1,0 +1,19 @@
+  {
+  "editor.formatOnSave": true,
+  // Fonts and Themes
+  "editor.fontSize": 14,
+  "editor.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 14,
+
+  // Sidebar and Activity Bar Location
+  "workbench.sideBar.location": "right",
+  "workbench.activityBar.location": "top",
+  // Hide useless UI elements
+  "editor.minimap.enabled": false,
+  "workbench.externalBrowser": "google-chrome",
+  "workbench.editor.showTabs": "single",
+  "window.commandCenter": false,
+  "breadcrumbs.enabled": false,
+  "explorer.confirmDragAndDrop": false
+}

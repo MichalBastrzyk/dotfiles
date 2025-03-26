@@ -32,6 +32,7 @@ cask "handbrake"
 cask "spotify"
 
 ## Coding
+cask "cursor"
 cask "visual-studio-code"
 cask "ghostty" 
 cask "tableplus"
