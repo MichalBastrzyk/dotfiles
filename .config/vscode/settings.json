@@ -72,4 +72,5 @@
     "*.sdb": "${capture}.${extname}-*",
     "*.s3db": "${capture}.${extname}-*"
   },
+  "explorer.confirmDragAndDrop": false,
 }
