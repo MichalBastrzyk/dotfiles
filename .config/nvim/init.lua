@@ -78,6 +78,7 @@ vim.opt.scrolloff = 10
 vim.opt.confirm = true
 
 -- [[ Basic Keymaps ]]
+
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
@@ -89,6 +90,45 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left wind
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+
+local map = vim.keymap.set
+
+-- Tab Navigation (Supplementing gt/gT)
+-- Use L/H or ]/[ for next/previous tab, similar to buffer switching
+map("n", "<leader>l", ":tabnext<CR>", { desc = "Go to Next Tab", noremap = true })
+map("n", "<leader>h", ":tabprevious<CR>", { desc = "Go to Previous Tab", noremap = true })
+-- Or use ]t / [t
+-- map('n', ']t', ':tabnext<CR>', { desc = 'Go to Next Tab', noremap = true })
+-- map('n', '[t', ':tabprevious<CR>', { desc = 'Go to Previous Tab', noremap = true })
+
+-- Go to specific tab numbers easily
+map("n", "<leader>1", "1gt", { desc = "Go to Tab 1", noremap = true })
+map("n", "<leader>2", "2gt", { desc = "Go to Tab 2", noremap = true })
+map("n", "<leader>3", "3gt", { desc = "Go to Tab 3", noremap = true })
+map("n", "<leader>4", "4gt", { desc = "Go to Tab 4", noremap = true })
+map("n", "<leader>5", "5gt", { desc = "Go to Tab 5", noremap = true })
+map("n", "<leader>6", "6gt", { desc = "Go to Tab 6", noremap = true })
+map("n", "<leader>7", "7gt", { desc = "Go to Tab 7", noremap = true })
+map("n", "<leader>8", "8gt", { desc = "Go to Tab 8", noremap = true })
+map("n", "<leader>9", "9gt", { desc = "Go to Last Tab (or Tab 9)", noremap = true }) -- 9gt often goes to last tab if <9 tabs
+
+-- Tab Creation
+map("n", "<leader>tn", ":tabnew<CR>", { desc = "New Tab", noremap = true }) -- t(ab) n(ew)
+map("n", "<leader>to", ":tab split<CR>", { desc = "Open Current Buffer in New Tab", noremap = true }) -- t(ab) o(pen current)
+
+-- Tab Closing
+map("n", "<leader>tc", ":tabclose<CR>", { desc = "Close Current Tab", noremap = true }) -- t(ab) c(lose)
+map("n", "<leader>tO", ":tabonly<CR>", { desc = "Close Other Tabs", noremap = true }) -- t(ab) O(nly) - Capital O for more destructive action
+
+-- Tab Moving
+map("n", "<leader>tmh", ":tabmove -1<CR>", { desc = "Move Tab Left", noremap = true }) -- t(ab) m(ove) h (left)
+map("n", "<leader>tml", ":tabmove +1<CR>", { desc = "Move Tab Right", noremap = true }) -- t(ab) m(ove) l (right)
+-- Alternative move keys using < >
+-- map('n', '<leader><', ':tabmove -1<CR>', { desc = 'Move Tab Left', noremap = true })
+-- map('n', '<leader>>', ':tabmove +1<CR>', { desc = 'Move Tab Right', noremap = true })
+
+-- List Tabs (though often handled by tabline plugins)
+map("n", "<leader>tl", ":tabs<CR>", { desc = "List Tabs", noremap = true }) -- t(ab) l(ist)
 
 -- [[ Basic Autocommands ]]
 vim.api.nvim_create_autocmd("TextYankPost", {
