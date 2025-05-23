@@ -30,17 +30,29 @@ cask "obsidian"
 cask "raycast"
 cask "handbrake"
 cask "spotify"
+cask "rectangle"
+cask "figma"
 
 ## Coding
 cask "cursor"
 cask "visual-studio-code"
-cask "ghostty" 
+cask "ghostty"
+cask "zed"
 cask "tableplus"
 cask "orbstack"
 brew "libpq"
 
 tap  "oven-sh/bun"
 brew "oven-sh/bun/bun"
+
+
+# AWS Mock services
+brew "awscli"
+brew "awscli-local"
+
+# Stripe CLI
+tap "stripe/stripe-cli"
+brew "stripe/stripe-cli/stripe"
 
 # Python
 brew "uv"
@@ -55,3 +67,6 @@ brew "fnm"
 # Fonts
 
 cask "font-geist-mono-nerd-font"
+
+tap "shaunsingh/SFMono-Nerd-Font-Ligaturized"
+cask "font-sf-mono-nerd-font-ligaturized"
