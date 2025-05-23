@@ -3,3 +3,7 @@
 .config/zsh/.zsh_sessions
 .config/configstore
 .config/raycast/extensions
+.config/.wrangler
+.config/qBittorrent
+.config/rclone/rclone.conf
+.config/stripe

@@ -6,7 +6,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 export GOPATH=$XDG_CACHE_HOME/go 
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:"/opt/homebrew/opt/libpq/bin":$GOPATH/bin
 
 
 [ -z "$XDG_RUNTIME_DIR" ] && export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
