@@ -32,6 +32,7 @@ cask "handbrake"
 cask "spotify"
 cask "rectangle"
 cask "figma"
+cask "notion"
 
 ## Coding
 cask "cursor"

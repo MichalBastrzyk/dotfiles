@@ -1,5 +1,4 @@
 {
-  "editor.formatOnSave": true,
   // Fonts and Themes
   "editor.fontSize": 14,
   "editor.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
@@ -16,9 +15,12 @@
   // Hide useless UI elements
   "editor.minimap.enabled": false,
   "workbench.externalBrowser": "google-chrome",
-  "workbench.editor.showTabs": "single",
   "window.commandCenter": false,
   "breadcrumbs.enabled": false,
+  "explorer.confirmDragAndDrop": false,
+  "git.confirmSync": false,
+
+  "editor.formatOnSave": true,
   // Copilot
   "github.copilot.advanced": {
     "experimentalFeatures": {
@@ -39,7 +41,6 @@
   // Update the imports when files are moved
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
-
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -72,5 +73,13 @@
     "*.sdb": "${capture}.${extname}-*",
     "*.s3db": "${capture}.${extname}-*"
   },
-  "explorer.confirmDragAndDrop": false,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "editor.accessibilitySupport": "on",
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.wordWrap": "off",
+  "[mdx]": {
+    "editor.defaultFormatter": "unifiedjs.vscode-mdx"
+  }
 }
