@@ -15,3 +15,8 @@
 .local/state
 
 **/*.mdb
+.config/better-auth
+.config/nvim/.swp
+.config/swiftpm
+.local/bin/rclone
+.local/bin/rclone.1
