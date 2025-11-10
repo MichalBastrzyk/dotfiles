@@ -16,23 +16,28 @@ brew "wget" # internet file retriever
 brew "zsh" # zsh (latest)
 brew "lazygit" # terminal UI for git
 brew "starship" # A prompt for zsh
+brew "yt-dlp" # A youtube videos downloader
+brew "ffmpeg" # A video manipulation library and program
 
 # GUI
 cask "logi-options+"
 cask "google-chrome"
-cask "firefox"
+# cask "firefox"
 cask "messenger"
 cask "discord"
 cask "whatsapp"
-cask "slack"
-cask "appcleaner"
+# cask "slack"
+# cask "appcleaner"
 cask "obsidian"
-cask "raycast"
-cask "handbrake"
+# cask "raycast"
+# cask "handbrake-app"
 cask "spotify"
 cask "rectangle"
-cask "figma"
-cask "notion"
+# cask "figma"
+# cask "notion"
+# cask "notion-calendar"
+cask "microsoft-teams"
+cask "stats"
 
 ## Coding
 cask "cursor"
@@ -48,12 +53,12 @@ brew "oven-sh/bun/bun"
 
 
 # AWS Mock services
-brew "awscli"
-brew "awscli-local"
+# brew "awscli"
+# brew "awscli-local"
 
 # Stripe CLI
-tap "stripe/stripe-cli"
-brew "stripe/stripe-cli/stripe"
+# tap "stripe/stripe-cli"
+# brew "stripe/stripe-cli/stripe"
 
 # Python
 brew "uv"
@@ -61,9 +66,10 @@ brew "uv"
 # Golang
 brew "go"
 
-tap  "tursodatabase/tap"
-brew "tursodatabase/tap/turso"
+# tap  "tursodatabase/tap"
+# brew "tursodatabase/tap/turso"
 brew "fnm"
+brew "just"
 
 # Fonts
 

@@ -1,3 +1,6 @@
+.DS_Store
+**/*/.DS_Store
+
 .config/zsh/.zsh_history
 .config/.wrangler/logs
 .config/zsh/.zsh_sessions
@@ -7,3 +10,8 @@
 .config/qBittorrent
 .config/rclone/rclone.conf
 .config/stripe
+
+.local/share
+.local/state
+
+**/*.mdb
