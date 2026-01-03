@@ -20,60 +20,39 @@ brew "yt-dlp" # A youtube videos downloader
 brew "ffmpeg" # A video manipulation library and program
 
 # GUI
-cask "logi-options+"
-cask "google-chrome"
-# cask "firefox"
-cask "messenger"
-cask "discord"
-cask "whatsapp"
-# cask "slack"
-# cask "appcleaner"
-cask "obsidian"
-# cask "raycast"
-# cask "handbrake-app"
-cask "spotify"
+cask "antigravity"
+cask "helium-browser"
 cask "rectangle"
-# cask "figma"
-# cask "notion"
-# cask "notion-calendar"
-cask "microsoft-teams"
+cask "figma"
 cask "stats"
-
-## Coding
-cask "cursor"
-cask "visual-studio-code"
-cask "ghostty"
-cask "zed"
-cask "tableplus"
+cask "iina"
+cask "keepingyouawake"
+cask "logi-options+"
+cask "microsoft-teams"
+cask "notion"
+cask "obsidian"
+cask "openvpn-connect"
 cask "orbstack"
-brew "libpq"
+cask "qbittorrent"
+cask "rectangle"
+cask "spotify"
+cask "teamviewer"
+cask "utm"
+cask "visual-studio-code"
+cask "whatsapp"
 
+# Coding
+brew "libpq"
 tap  "oven-sh/bun"
 brew "oven-sh/bun/bun"
-
-
-# AWS Mock services
-# brew "awscli"
-# brew "awscli-local"
-
-# Stripe CLI
-# tap "stripe/stripe-cli"
-# brew "stripe/stripe-cli/stripe"
-
-# Python
+tap "stripe/stripe-cli"
+brew "stripe/stripe-cli/stripe"
 brew "uv"
-
-# Golang
-brew "go"
-
-# tap  "tursodatabase/tap"
-# brew "tursodatabase/tap/turso"
 brew "fnm"
 brew "just"
 
 # Fonts
 
 cask "font-geist-mono-nerd-font"
-
 tap "shaunsingh/SFMono-Nerd-Font-Ligaturized"
 cask "font-sf-mono-nerd-font-ligaturized"
