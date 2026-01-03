@@ -1,3 +1,7 @@
-theme = github-dark-default
-
+theme = Github Dark
+window-padding-x = 4
+window-padding-y = 4
+# theme = ayu
+#theme = Fahrenheit 
 font-family = "JetBrains Mono"
+keybind = shift+enter=text:\x1b\r

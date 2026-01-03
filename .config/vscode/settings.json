@@ -1,71 +1,284 @@
 {
-  // Fonts and Themes
-  "editor.fontSize": 14,
-  "editor.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
-  "terminal.integrated.fontFamily": "'GeistMono Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
-  "terminal.integrated.fontSize": 14,
-  // Color Theme
-  "workbench.colorTheme": "GitHub Dark Default",
-  // Icons
-  "workbench.iconTheme": "catppuccin-macchiato",
-  "workbench.productIconTheme": "icons-carbon",
-  // Sidebar and Activity Bar Location
-  "workbench.sideBar.location": "right",
-  "workbench.activityBar.location": "top",
-  // Hide useless UI elements
-  "editor.minimap.enabled": false,
-  "workbench.externalBrowser": "google-chrome",
-  "window.commandCenter": false,
-  "breadcrumbs.enabled": false,
-  "explorer.confirmDragAndDrop": false,
-  "git.confirmSync": false,
+  // START Editor settings
 
+  "editor.lineNumbers": "relative",
+  "editor.linkedEditing": true,
   "editor.formatOnSave": true,
-  // Copilot
-  "github.copilot.advanced": {
-    "experimentalFeatures": {
-      "enableExperimentalFeatures": true,
-      "enableExperimentalFeaturesForAllUsers": true
-    }
-  },
-  // Enable copilot for these filetypes
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": true,
-    "scminput": false,
-    "go": true
-  },
-  "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
+  "editor.wordWrap": "off",
 
-  // Update the imports when files are moved
+  // FONTS
+  "editor.fontFamily": "'JetBrains Mono NL', 'JetBrains Mono', 'Fira Code', Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontFamily": "'Hack Nerd Font Mono', monospace",
+  "editor.minimap.enabled": false,
+  "explorer.compactFolders": false,
+  "explorer.fileNesting.enabled": true,
+  // "editor.foldingImportsByDefault": true,
+  "json.schemaDownload.enable": true,
+  "editor.inlayHints.enabled": "off",
+  "editor.rulers": [80],
+
+  // END Editor settings
+
+  // START UI stuff
+
+  "workbench.sideBar.location": "right",
+  "workbench.colorTheme": "GitHub Dark Default",
+  "workbench.productIconTheme": "icons-carbon",
+  "workbench.tree.enableStickyScroll": true,
+
+  // START Git integration
+
+  "gitlens.currentLine.enabled": false,
+  "gitlens.gitCommands.skipConfirmations": [
+    "fetch:command",
+    "stash-push:command"
+  ],
+  "git.openRepositoryInParentFolders": "never",
+
+  // END Git integration
+
+  // START Vim extension
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "vscode-neovim.neovimInitVimPaths.darwin": "$HOME/.config/nvim/init.lua",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "whichkey.showButtons": true,
+  "whichkey.showIcons": true,
+  "whichkey.delay": 500,
+  "whichkey.sortOrder": "alphabetically",
+  "whichkey.bindings": [
+    {
+      "key": " ",
+      "name": "Find Files",
+      "type": "command",
+      "command": "workbench.action.quickOpen"
+    },
+    {
+      "key": ";",
+      "name": "commands",
+      "type": "command",
+      "command": "workbench.action.showCommands"
+    },
+    {
+      "key": "k",
+      "name": "Close active editor",
+      "type": "command",
+      "command": "workbench.action.closeActiveEditor"
+    },
+    {
+      "key": "q",
+      "name": "Kill Terminal",
+      "type": "command",
+      "command": "workbench.action.terminal.kill"
+    },
+    {
+      "key": "t",
+      "name": "Toggle Terminal",
+      "type": "command",
+      "command": "workbench.action.togglePanel"
+    },
+    {
+      "key": "b",
+      "name": "Buffers/Editors...",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "b",
+          "name": "Show all buffers/editors",
+          "type": "command",
+          "command": "workbench.action.showAllEditors"
+        },
+        {
+          "key": "m",
+          "name": "Close other editors",
+          "type": "command",
+          "command": "workbench.action.closeOtherEditors"
+        },
+        {
+          "key": "u",
+          "name": "Reopen closed editor",
+          "type": "command",
+          "command": "workbench.action.reopenClosedEditor"
+        },
+        {
+          "key": "y",
+          "name": "Copy buffer to clipboard",
+          "type": "commands",
+          "commands": [
+            "editor.action.selectAll",
+            "editor.action.clipboardCopyAction",
+            "cancelSelection"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "e",
+      "name": "Toggle Explorer",
+      "type": "command",
+      "command": "workbench.action.toggleSidebarVisibility"
+    },
+    {
+      "key": "f",
+      "name": "Find & Replace...",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "f",
+          "name": "File",
+          "type": "command",
+          "command": "editor.action.startFindReplaceAction"
+        },
+        {
+          "key": "s",
+          "name": "Symbol",
+          "type": "command",
+          "command": "editor.action.rename",
+          "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+        },
+        {
+          "key": "p",
+          "name": "Project",
+          "type": "command",
+          "command": "workbench.action.replaceInFiles"
+        }
+      ]
+    },
+    {
+      "key": "h",
+      "name": "Split Horizontal",
+      "type": "command",
+      "command": "workbench.action.splitEditorDown"
+    },
+    {
+      "key": "s",
+      "name": "Search...",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "f",
+          "name": "files",
+          "type": "command",
+          "command": "workbench.action.quickOpen"
+        },
+        {
+          "key": "t",
+          "name": "text",
+          "type": "command",
+          "command": "workbench.action.findInFiles"
+        },
+        {
+          "key": "r",
+          "name": "recent projects",
+          "type": "command",
+          "command": "workbench.action.openRecent"
+        }
+      ]
+    },
+    {
+      "key": "v",
+      "name": "Split Vertical",
+      "type": "command",
+      "command": "workbench.action.splitEditor"
+    },
+    {
+      "key": "z",
+      "name": "Toggle zen mode",
+      "type": "command",
+      "command": "workbench.action.toggleZenMode"
+    }
+  ],
+  "editor.suggestSelection": "first",
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+
+  "todo-tree.highlights.enabled": false,
+
+  // END Vim extension
+
+  "cSpell.language": "en,pl",
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "cSpell.ignorePaths": ["pnpm-lock.yaml", "Cargo.lock", "settings.json"],
+  "tailwindCSS.colorDecorators": false,
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+  // Language specific stuff
+
+  // START Typescript/Javascript
+  // Prefer non-relative paths
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.autoClosingTags": true,
+  "typescript.preferences.renameMatchingJsxTags": true,
+
+  // Update import path when moving files
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[html]": {
+  "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[css]": {
+  "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "prettier.trailingComma": "es5",
+  "prettier.tabWidth": 2,
+  "prettier.semi": false,
+  "prettier.singleQuote": false,
+
+  // END Typescript/Javascript
+
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.rulers": []
+  },
+
+  // START Svelte
+  "svelte.enable-ts-plugin": true,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
     "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
     "*.jsx": "${capture}.js",
     "*.tsx": "${capture}.ts",
     "tsconfig.json": "tsconfig.*.json",
-    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "+layout.svelte": "+layout.js, +layout.ts, +layout.server.js, +layout.server.ts",
+    "+page.svelte": "+page.js, +page.ts, +page.server.js, +page.server.ts",
     "*.sqlite": "${capture}.${extname}-*",
     "*.db": "${capture}.${extname}-*",
     "*.sqlite3": "${capture}.${extname}-*",
@@ -73,13 +286,275 @@
     "*.sdb": "${capture}.${extname}-*",
     "*.s3db": "${capture}.${extname}-*"
   },
-  "github.copilot.nextEditSuggestions.enabled": true,
-  "editor.accessibilitySupport": "on",
-  "[astro]": {
+  // END Svelte
+
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+
+  // Telemetry
+  "gitlens.telemetry.enabled": false,
+  "telemetry.telemetryLevel": "off",
+  "git.confirmSync": false,
+  "errorLens.excludeBySource": ["eslint(no-empty-pattern)"],
+
+  // Other useless stuff
+  "cSpell.userWords": [
+    "Abril",
+    "Addnew",
+    "ahooks",
+    "alpinejs",
+    "animejs",
+    "Appi",
+    "astrojs",
+    "asvetliakov",
+    "autoincrement",
+    "Bastrzyk",
+    "bastrzykcom",
+    "Bento",
+    "Bernadino",
+    "bgvid",
+    "biomejs",
+    "blankdays",
+    "bunx",
+    "callees",
+    "callout",
+    "Cardo",
+    "catppuccin",
+    "Chakra",
+    "classname",
+    "classpath",
+    "clickoutside",
+    "cloudinary",
+    "clsx",
+    "cmdk",
+    "composables",
+    "contentu",
+    "Cooldown",
+    "coverflow",
+    "darkbg",
+    "Datepicker",
+    "daveyplate",
+    "dbaeumer",
+    "Dinero",
+    "dotmind",
+    "Dribbble",
+    "ducanh",
+    "easepick",
+    "ecommerce",
+    "elysia",
+    "elysiajs",
+    "embeddable",
+    "endregion",
+    "epub",
+    "esbenp",
+    "esbuild",
+    "esport",
+    "esports",
+    "eventy",
+    "factorypath",
+    "Fatface",
+    "filepond",
+    "flatpickr",
+    "flowbite",
+    "foldfix",
+    "formkit",
+    "fotografowanie",
+    "fullscreen",
+    "generouted",
+    "gsap",
+    "habitz",
+    "happydom",
+    "hashids",
+    "hgetall",
+    "hookform",
+    "htmx",
+    "ianvs",
+    "icns",
+    "iconify",
+    "imagetools",
+    "kitajs",
+    "kobalte",
+    "Kysely",
+    "languagedetector",
+    "lucide",
+    "mapbox",
+    "maplibre",
+    "maplibregl",
+    "masterpass",
+    "matroska",
+    "Maximizable",
+    "mbastrzyk",
+    "Menlo",
+    "michal",
+    "Michał",
+    "michalbastrzyk",
+    "michalbastrzykcom",
+    "middlewares",
+    "mkcert",
+    "nanostores",
+    "nativewind",
+    "neondatabase",
+    "neovim",
+    "Neue",
+    "nextauth",
+    "nextjs",
+    "nvim",
+    "onclickoutside",
+    "onpage",
+    "orpc",
+    "outfile",
+    "PACKSHOT",
+    "partytown",
+    "Pawel",
+    "Paweł",
+    "pcss",
+    "picocss",
+    "planetscale",
+    "Playfair",
+    "Portret",
+    "preact",
+    "precaching",
+    "prefs",
+    "presigner",
+    "Pressable",
+    "prettiercache",
+    "psql",
+    "pswp",
+    "pytest",
+    "qaaform",
+    "recheep",
+    "reqwest",
+    "responsywnych",
+    "rlig",
+    "rodio",
+    "rootfile",
+    "runtimes",
+    "sadd",
+    "Segoe",
+    "Serverside",
+    "setex",
+    "shadcn",
+    "shoutout",
+    "signout",
+    "solidjs",
+    "sonner",
+    "sslaccept",
+    "Stauffer",
+    "streamingu",
+    "Streamowy",
+    "subdesc",
+    "supabase",
+    "superforms",
+    "superjson",
+    "svelteuidev",
+    "swiper",
+    "Swup",
+    "tabler",
+    "tailwindcss",
+    "tanstack",
+    "Tauri",
+    "timelapse",
+    "Todos",
+    "toggleable",
+    "tosz",
+    "Transpiles",
+    "treeshake",
+    "trivago",
+    "TRPC",
+    "tsbuildinfo",
+    "tsconfigs",
+    "tsup",
+    "typecheck",
+    "typesafety",
+    "ubisoft",
+    "uidotdev",
+    "uilts",
+    "ultracite",
+    "undici",
+    "Unna",
+    "Unocss",
+    "unplugin",
+    "unselectable",
+    "upstash",
+    "usehooks",
+    "valtio",
+    "Videographer",
+    "vimeocdn",
+    "vinxi",
+    "vitedge",
+    "wargaming",
+    "webm",
+    "webp",
+    "whichkey",
+    "whiteboxstudio",
+    "whiteboxstudiopl",
+    "wireframes",
+    "wydarzen",
+    "yzhang"
+  ],
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
+  "explorer.confirmDragAndDrop": false,
+  "todomd.defaultFile": "/Users/michal/dev/real-projects/award-form-nextjs/README.md",
+  "errorLens.fontStyleItalic": true,
+  "workbench.activityBar.location": "top",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.wordWrap": "off",
-  "[mdx]": {
-    "editor.defaultFormatter": "unifiedjs.vscode-mdx"
-  }
+  "gitlens.ai.experimental.provider": "openai",
+  "gitlens.ai.experimental.openai.model": "gpt-4-1106-preview",
+  "workbench.iconTheme": "catppuccin-macchiato",
+  "editor.fontSize": 14,
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "[dockercompose]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "codeium.enableConfig": {
+    "*": true,
+    "mdx": true
+  },
+  "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
+  "github.copilot.chat.languageContext.typescript.enabled": true,
+  "workbench.editor.enablePreview": false,
+  "chat.agent.maxRequests": 40,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "files.autoSaveDelay": 200,
+  "git.autofetch": true,
+  "chat.tools.terminal.autoApprove": {
+    "sed": true,
+    "bun": true,
+    "just": true,
+    "mkdir": true,
+    "mv": true
+  },
+  "sherlock.userId": "ffb71d38-2f73-4499-8e60-1d7202e6e941",
+  "swift.path": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+  "swift.swiftEnvironmentVariables": {
+    "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer"
+  },
+  "kilo-code.allowedCommands": [
+    "git log",
+    "git diff",
+    "git show",
+    "just",
+    "bun add"
+  ],
+  "kilo-code.deniedCommands": [],
+  "terminal.integrated.stickyScroll.enabled": false,
+  "chat.mcp.gallery.enabled": true
 }

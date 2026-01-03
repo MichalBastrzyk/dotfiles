@@ -12,7 +12,7 @@
       "show_edit_predictions": false
     }
   },
-  "icon_theme": "Catppuccin Mocha",
+  "icon_theme": "Zed (Default)",
   "git_panel": {
     "dock": "right"
   },
@@ -33,6 +33,9 @@
     }
   },
   "agent": {
+    "use_modifier_to_send": true,
+    "play_sound_when_agent_done": true,
+    "always_allow_tool_actions": true,
     "profiles": {
       "codebase": {
         "name": "Codebase",
@@ -41,7 +44,7 @@
         "context_servers": {}
       }
     },
-    "default_profile": "minimal",
+    "default_profile": "write",
     "inline_assistant_model": {
       "provider": "google",
       "model": "gemini-2.5-flash-preview-04-17"
@@ -50,13 +53,12 @@
     "model_parameters": [],
     "default_model": {
       "provider": "google",
-      "model": "gemini-2.0-flash-lite-preview"
-    },
-    "version": "2"
+      "model": "gemini-2.5-flash-lite-preview"
+    }
   },
   "base_keymap": "VSCode",
   "vim_mode": true,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "ui_font_size": 16,
   "buffer_line_height": { "custom": 1.8 },
   "buffer_font_size": 16,
@@ -64,7 +66,7 @@
   "theme": {
     "mode": "system",
     "light": "GitHub Dark Default",
-    "dark": "GitHub Dark Default"
+    "dark": "Catppuccin Mocha"
   },
   "diagnostics": {
     "include_warnings": true,

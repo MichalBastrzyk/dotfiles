@@ -4,6 +4,7 @@ alias ..="cd .."
 hash -d ic=~/Library/Mobile\ Documents/com~apple~CloudDocs
 
 alias switch="$HOME/.local/bin/switch.sh"
+alias remove-password-from-pdf="$HOME/.local/bin/remove-password-from-pdf.sh"
 
 # Purge DNS cache
 alias flush-dns-cache="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
@@ -26,3 +27,9 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Shell prompt
 eval "$(starship init zsh)"
+
+alias rename="python3 ~/dev/rename/main.py"
+alias team_folders="python3 ~/dev/team_folders/main.py"
+
+# bun completions
+[ -s "/Users/michal/.bun/_bun" ] && source "/Users/michal/.bun/_bun"
