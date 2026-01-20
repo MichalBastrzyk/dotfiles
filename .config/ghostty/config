@@ -1,7 +1,7 @@
-theme = Github Dark
 window-padding-x = 4
 window-padding-y = 4
-# theme = ayu
-#theme = Fahrenheit 
+theme = ayu
 font-family = "JetBrains Mono"
 keybind = shift+enter=text:\x1b\r
+background = #000000
+background-opacity = 1.0
