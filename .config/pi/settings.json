@@ -1,0 +1,31 @@
+{
+  "lastChangelogVersion": "0.75.3",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "low",
+  "hideThinkingBlock": true,
+  "editorPaddingX": 1,
+  "npmCommand": [
+    "fnm",
+    "exec",
+    "--using=25",
+    "--",
+    "npm"
+  ],
+  "enabledModels": [
+    "openai-codex/gpt-5.5",
+    "github-copilot/gemini-3.1-pro-preview",
+    "opencode-go/glm-5.1",
+    "opencode-go/deepseek-v4-pro",
+    "opencode-go/deepseek-v4-flash",
+    "opencode-go/kimi-k2.6"
+  ],
+  "packages": [
+    "git:https://github.com/awtotty/pi-opencode.git",
+    "git:https://github.com/ghoseb/pi-askuserquestion.git",
+    "npm:@rbright/pi-notify-desktop",
+    "npm:pi-mcp-adapter",
+    "npm:@victor-software-house/pi-curated-themes"
+  ],
+  "theme": "github-dark-high-contrast"
+}

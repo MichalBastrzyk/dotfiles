@@ -1,0 +1,3 @@
+- [ ] xCodeBuild MCP
+- [ ] Replace npm:@victor-software-house/pi-curated-themes only with a selected theme insteax of enabling so many different themes
+- [ ] Copy last message extension

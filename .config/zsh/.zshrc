@@ -9,7 +9,7 @@ alias remove-password-from-pdf="$HOME/.local/bin/remove-password-from-pdf.sh"
 # Purge DNS cache
 alias flush-dns-cache="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 
-# ls 
+# ls
 alias ls="eza -l --icons --git --group-directories-first"
 alias l="eza -l --icons --git --group-directories-first"
 alias ll="eza -l --icons --git --group-directories-first"
@@ -38,3 +38,11 @@ alias team_folders="python3 ~/dev/team_folders/main.py"
 
 # bun completions
 [ -s "/Users/michal/.bun/_bun" ] && source "/Users/michal/.bun/_bun"
+
+# Pi Coding Agent Setup
+unalias pi 2>/dev/null
+pi() {
+   PI_CODING_AGENT_DIR="$HOME/.config/pi" \
+   PI_CODING_AGENT_SESSION_DIR="$HOME/.local/share/pi" \
+   fnm exec --using=25 -- pi --no-skills --skill ~/.pi-experiment/skills "$@"
+}

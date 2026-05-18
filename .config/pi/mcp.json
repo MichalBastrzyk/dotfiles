@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "Sentry": {
+      "url": "https://mcp.sentry.dev/mcp"
+    },
+    "vercel": {
+      "url": "https://mcp.vercel.com"
+    }
+  }
+}
