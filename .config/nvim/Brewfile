@@ -1,0 +1,2 @@
+brew "lua-language-server"
+brew "typescript-language-server"

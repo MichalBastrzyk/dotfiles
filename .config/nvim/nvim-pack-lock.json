@@ -1,0 +1,20 @@
+{
+  "plugins": {
+    "neovim-ayu": {
+      "rev": "e5a9f0fa2918d6b5f57c21b3ac014314ee5e41c8",
+      "src": "https://github.com/Shatur/neovim-ayu"
+    },
+    "nvim-lspconfig": {
+      "rev": "0480b120318ec8bab27b530ffab6ee76a8c4d806",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "92c9b016d16473dabd2bf3760196cf2d928edacc",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "vim-sleuth": {
+      "rev": "be69bff86754b1aa5adcbb527d7fcd1635a84080",
+      "src": "https://github.com/tpope/vim-sleuth"
+    }
+  }
+}
