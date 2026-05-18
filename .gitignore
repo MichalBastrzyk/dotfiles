@@ -22,3 +22,8 @@
 .local/bin/rclone.1
 .config/mole/mole.log
 .config/ngrok/ngrok.yml
+/.config/filezilla
+/.config/mole/operations.log
+/.config/spacetime
+/.config/zed/prompts/prompts-library-db.0.mdb
+/.config/zed/prompts/prompts-library-db.0.mdb

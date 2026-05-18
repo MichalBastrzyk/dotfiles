@@ -28,6 +28,8 @@ eval "$(zoxide init --cmd cd zsh)"
 # Other tools
 eval "$(fnm env --use-on-cd --shell zsh)"
 
+alias nvm="fnm"
+
 # Shell prompt
 eval "$(starship init zsh)"
 
