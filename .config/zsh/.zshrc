@@ -44,5 +44,5 @@ unalias pi 2>/dev/null
 pi() {
    PI_CODING_AGENT_DIR="$HOME/.config/pi" \
    PI_CODING_AGENT_SESSION_DIR="$HOME/.local/share/pi" \
-   fnm exec --using=25 -- pi --no-skills --skill ~/.pi-experiment/skills "$@"
+   fnm exec --using=25 -- pi --no-skills --skill ~/.config/pi/skills "$@"
 }
