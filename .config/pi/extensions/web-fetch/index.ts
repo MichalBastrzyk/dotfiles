@@ -536,9 +536,13 @@ async function fetchAndExtract(
 	if (signal?.aborted)
 		return { url, title: "", content: "", error: "Aborted" };
 
+	if (!httpResult.error.startsWith("Page appears to be JavaScript-rendered")) {
+		return httpResult;
+	}
+
 	return {
 		...httpResult,
-		error: `${httpResult.error}\n\nThe page may be JavaScript-rendered. Try:\n  • A different URL for the same content\n  • web_search to find cached/alternative versions`,
+		error: `${httpResult.error}\n\nTry a different URL for the same content.`,
 	};
 }
 

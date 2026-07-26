@@ -1,0 +1,10 @@
+{
+  "trustedtaps": [
+    "oven-sh/bun",
+    "shaunsingh/sfmono-nerd-font-ligaturized",
+    "stripe/stripe-cli"
+  ],
+  "trustedcasks": [
+    "steipete/tap/codexbar"
+  ]
+}

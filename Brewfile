@@ -30,6 +30,7 @@ cask "spotify"
 cask "teamviewer"
 cask "visual-studio-code"
 cask "whatsapp"
+cask "wispr-flow"
 
 # Coding
 brew "libpq"
@@ -40,6 +41,7 @@ brew "stripe/stripe-cli/stripe"
 brew "uv"
 brew "fnm"
 brew "just"
+cask "coderabbit"
 
 # Fonts
 cask "font-geist-mono-nerd-font"

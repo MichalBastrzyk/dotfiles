@@ -1,7 +1,7 @@
 /**
  * Minimal subagents extension.
  *
- * Registers a single `subagent` tool with three agents: scout, researcher, worker.
+ * Registers a single `subagent` tool with two agents: scout and worker.
  * Supports single and parallel execution. Output is verbal only (no file handoff).
  */
 import { spawn } from "node:child_process";
@@ -25,8 +25,15 @@ export interface AgentConfig {
 }
 
 interface ToolEvent {
+	toolCallId: string;
 	tool: string;
 	args: string;
+	status: "success" | "error";
+}
+
+interface ToolCount {
+	calls: number;
+	errors: number;
 }
 
 interface AgentProgress {
@@ -35,7 +42,9 @@ interface AgentProgress {
 	task: string;
 	currentTool?: string;
 	currentToolArgs?: string;
-	recentTools: ToolEvent[];
+	toolAudit: ToolEvent[];
+	toolCounts: Record<string, ToolCount>;
+	droppedToolEvents: number;
 	toolCount: number;
 	tokens: number;
 	durationMs: number;
@@ -69,6 +78,26 @@ const AGENTS_DIR = path.join(EXT_DIR, "agents");
 const TOOLS_DIR = path.join(EXT_DIR, "tools");
 const CONFIG_PATH = path.join(EXT_DIR, "config.json");
 const DEFAULT_MAX_CONCURRENCY = 4;
+const MAX_TOOL_AUDIT = 500;
+
+function createAgentProgress(
+	agent: string,
+	status: AgentProgress["status"],
+	task: string,
+): AgentProgress {
+	return {
+		agent,
+		status,
+		task,
+		toolAudit: [],
+		toolCounts: {},
+		droppedToolEvents: 0,
+		toolCount: 0,
+		tokens: 0,
+		durationMs: 0,
+		lastMessage: "",
+	};
+}
 
 function loadConfig(): ExtensionConfig {
 	try {
@@ -85,7 +114,9 @@ const BUILTIN_TOOLS = new Set(["read", "write", "edit", "bash", "grep", "find", 
 // Custom tools that require loading an extension into the subagent process
 const EXT_BASE = path.dirname(EXT_DIR);
 const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
-	web_search: path.join(EXT_BASE, "web-search", "index.ts"),
+	fd: path.join(EXT_BASE, "file-search", "index.ts"),
+	rg: path.join(EXT_BASE, "file-search", "index.ts"),
+	opensrc: path.join(TOOLS_DIR, "opensrc.ts"),
 	web_fetch: path.join(EXT_BASE, "web-fetch", "index.ts"),
 	safe_bash: path.join(TOOLS_DIR, "safe-bash.ts"),
 	video_extract: path.join(EXT_BASE, "video-extract", "index.ts"),
@@ -170,6 +201,8 @@ function formatToolPreview(name: string, args: Record<string, unknown>): string 
 		case "bash":
 		case "safe_bash":
 			return `$ ${((args.command as string) || "").slice(0, 80)}`;
+		case "opensrc":
+			return `opensrc ${(args.source as string) || ""}`;
 		case "read":
 			return `read ${(args.path as string) || ""}`;
 		case "write":
@@ -182,8 +215,6 @@ function formatToolPreview(name: string, args: Record<string, unknown>): string 
 			return `find ${(args.pattern as string) || ""}`;
 		case "ls":
 			return `ls ${(args.path as string) || "."}`;
-		case "web_search":
-			return `search "${(args.query as string) || ""}"`;
 		case "web_fetch":
 			return `fetch ${(args.url as string) || ""}`;
 		default: {
@@ -261,7 +292,7 @@ async function buildPiArgs(
 		args.push("--extension", extPath);
 	}
 
-	args.push("--models", agent.model);
+	args.push("--model", agent.model);
 	args.push("--append-system-prompt", promptPath);
 
 	// Handle long tasks by writing to file
@@ -319,20 +350,19 @@ async function runSubagent(
 		exitCode: 0,
 		model: agent.model,
 		usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, turns: 0 },
-		progress: {
-			agent: agent.name,
-			status: "running",
-			task,
-			recentTools: [],
-			toolCount: 0,
-			tokens: 0,
-			durationMs: 0,
-			lastMessage: "",
-		},
+		progress: createAgentProgress(agent.name, "running", task),
 	};
 
 	const startTime = Date.now();
 	const progress = result.progress;
+	const activeTools = new Map<string, { tool: string; args: string }>();
+	let anonymousToolCall = 0;
+
+	const updateCurrentTool = () => {
+		const current = [...activeTools.values()].at(-1);
+		progress.currentTool = current?.tool;
+		progress.currentToolArgs = current?.args;
+	};
 
 	const fireUpdate = throttle(() => {
 		progress.durationMs = Date.now() - startTime;
@@ -355,25 +385,39 @@ async function runSubagent(
 				progress.durationMs = Date.now() - startTime;
 
 				if (evt.type === "tool_execution_start") {
+					const toolCallId = String(evt.toolCallId ?? `anonymous-${++anonymousToolCall}`);
+					const tool = String(evt.toolName ?? "unknown");
+					const args = extractToolArgsPreview((evt.args || {}) as Record<string, unknown>);
+					activeTools.set(toolCallId, { tool, args });
 					progress.toolCount++;
-					progress.currentTool = evt.toolName;
-					progress.currentToolArgs = extractToolArgsPreview((evt.args || {}) as Record<string, unknown>);
+					const count = (progress.toolCounts[tool] ??= { calls: 0, errors: 0 });
+					count.calls++;
+					updateCurrentTool();
 					fireUpdate();
 				}
 
 				if (evt.type === "tool_execution_end") {
-					if (progress.currentTool) {
-						progress.recentTools.push({
-							tool: progress.currentTool,
-							args: progress.currentToolArgs || "",
-						});
-						// Keep last 20
-						if (progress.recentTools.length > 20) {
-							progress.recentTools.splice(0, progress.recentTools.length - 20);
-						}
+					const toolCallId = String(evt.toolCallId ?? `anonymous-end-${++anonymousToolCall}`);
+					const started = activeTools.get(toolCallId);
+					const tool = started?.tool ?? String(evt.toolName ?? "unknown");
+					const status = evt.isError ? "error" : "success";
+					if (status === "error") {
+						const count = (progress.toolCounts[tool] ??= { calls: 0, errors: 0 });
+						count.errors++;
 					}
-					progress.currentTool = undefined;
-					progress.currentToolArgs = undefined;
+					progress.toolAudit.push({
+						toolCallId,
+						tool,
+						args: started?.args ?? "",
+						status,
+					});
+					if (progress.toolAudit.length > MAX_TOOL_AUDIT) {
+						const dropped = progress.toolAudit.length - MAX_TOOL_AUDIT;
+						progress.toolAudit.splice(0, dropped);
+						progress.droppedToolEvents += dropped;
+					}
+					activeTools.delete(toolCallId);
+					updateCurrentTool();
 					fireUpdate();
 				}
 
@@ -582,14 +626,21 @@ function renderAgentProgress(
 		}
 	}
 
-	// Recent tools (always all)
-	const toolsToShow = prog.recentTools;
+	// Full bounded audit when expanded; recent calls in compact mode.
+	const toolsToShow = expanded ? prog.toolAudit : prog.toolAudit.slice(-20);
+	if (expanded && prog.droppedToolEvents > 0) {
+		c.addChild(
+			new Text(theme.fg("dim", `  … ${prog.droppedToolEvents} earlier tool events omitted`), 0, 0),
+		);
+	}
 	for (const t of toolsToShow) {
-		const line = `  ${t.tool}: ${t.args}`;
+		const marker = t.status === "error" ? "✗" : "✓";
+		const callId = expanded ? ` [${t.toolCallId}]` : "";
+		const line = `  ${marker} ${t.tool}${callId}: ${t.args}`;
 		if (expanded) {
-			c.addChild(new Text(theme.fg("muted", line), 0, 0));
+			c.addChild(new Text(theme.fg(t.status === "error" ? "error" : "muted", line), 0, 0));
 		} else {
-			c.addChild(new Text(truncLine(theme.fg("muted", line), w), 0, 0));
+			c.addChild(new Text(truncLine(theme.fg(t.status === "error" ? "error" : "muted", line), w), 0, 0));
 		}
 	}
 
@@ -650,8 +701,8 @@ export default function (pi: ExtensionAPI) {
 			"Run a subagent to complete a task. Subagents have NO context from the current conversation — include all necessary context in the task description.",
 		promptSnippet: "Run subagents for delegated tasks",
 		promptGuidelines: [
-			"Parallel tool calls are your primary parallelism mechanism — put multiple independent read/fetch/search calls in one function_calls block. Don't use subagents to parallelize simple I/O.",
-			"Use subagent to delegate *reasoning and decisions*: codebase exploration (scout), web research (researcher), or isolated code changes (worker)",
+			"Parallel tool calls are your primary parallelism mechanism — put multiple independent read/fetch calls in one function_calls block. Don't use subagents to parallelize simple I/O.",
+			"Use subagent to delegate *reasoning and decisions*: codebase exploration (scout) or isolated code changes (worker)",
 			"For multiple independent subagent tasks, use parallel mode with tasks[] array",
 			"Subagents have NO context from the current conversation — include ALL necessary context in the task description",
 		],
@@ -700,7 +751,7 @@ export default function (pi: ExtensionAPI) {
 						exitCode: -1,
 						model: undefined,
 						usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, turns: 0 },
-						progress: { agent: taskList[i].agent, status: "pending" as any, task: taskList[i].task, recentTools: [], toolCount: 0, tokens: 0, durationMs: 0, lastMessage: "" },
+						progress: createAgentProgress(taskList[i].agent, "pending", taskList[i].task),
 					};
 				}
 
@@ -754,7 +805,7 @@ export default function (pi: ExtensionAPI) {
 					exitCode: -1,
 					model: agent.model,
 					usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, turns: 0 },
-					progress: { agent: params.agent!, status: "running" as const, task: params.task!, recentTools: [], toolCount: 0, tokens: 0, durationMs: 0, lastMessage: "" },
+					progress: createAgentProgress(params.agent!, "running", params.task!),
 				};
 				const result = await runSubagent(agent, params.task, params.cwd ?? cwd, signal, (progress) => {
 					liveResult.progress = progress;

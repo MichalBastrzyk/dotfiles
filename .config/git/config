@@ -5,3 +5,5 @@
 
 [init]
 	defaultBranch = master
+[coderabbit]
+	machineId = cli/69517d5defb84490b0c11d83d0556a6a

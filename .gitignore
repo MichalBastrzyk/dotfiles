@@ -28,9 +28,14 @@
 /.config/zed/prompts/prompts-library-db.0.mdb
 /.config/zed/prompts/prompts-library-db.0.mdb
 /.local/bin/herdr
-.config/pi/mcp-cache.json
 .config/pi/auth.json
-.config/pi/mcp-oauth/
+.config/pi/trust.json
 .config/pi/git/
 .config/zed/conversations/
 .config/zsh/secrets.zsh
+/.config/pi/node_modules
+/.config/pi/extensions/**/node_modules
+/.config/pi/bin
+/.config/pi/models-store.json
+/.config/homebrew/trust.json.lock
+/node_modules

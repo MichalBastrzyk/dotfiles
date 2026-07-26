@@ -1,12 +1,11 @@
 # Minimal Subagents
 
-A pi extension that registers a single `subagent` tool with three agents:
+A pi extension that registers a single `subagent` tool with two agents:
 
 | Agent | Tools | Model | Purpose |
 |-------|-------|-------|---------|
-| **scout** | read, grep, find, ls | claude-haiku-4-5 | Fast codebase recon |
-| **researcher** | web_search, web_fetch | claude-sonnet-4-6 | Web research |
-| **worker** | read, write, edit, safe_bash | claude-sonnet-4-6 | Code changes |
+| **scout** | read, find, ls, fd, rg, opensrc | openai-codex/gpt-5.6-luna:low | Local and dependency source research |
+| **worker** | read, write, edit, safe_bash | openai-codex/gpt-5.5:low | Code changes |
 
 ## Usage
 
@@ -19,11 +18,24 @@ A pi extension that registers a single `subagent` tool with three agents:
 ```json
 { "tasks": [
   { "agent": "scout", "task": "Map the database layer" },
-  { "agent": "researcher", "task": "Best practices for connection pooling" }
+  { "agent": "scout", "task": "Find database-layer tests" }
 ]}
 ```
 
 Max 4 concurrent subagents (configurable). Each runs as an isolated `pi` process with no inherited context — all context must be in the task description.
+
+## Dependency source research
+
+Scout uses the [`opensrc`](https://github.com/vercel-labs/opensrc) CLI to inspect upstream dependency source without scanning `node_modules` by default. The CLI must be available on `PATH` (`opensrc --version`).
+
+- Explicit version or revision: scout marks the resolution as `explicit` and resolves that exact spec.
+- Installed dependency: scout uses `project-lockfile` resolution and passes the project root.
+- Uninstalled dependency: scout uses `latest` resolution and reports that choice.
+- Tool results include the resolution mode, package metadata when available, and opensrc CLI version.
+- opensrc writes to its own global cache, not the project.
+- `node_modules` is a fallback for private, linked, patched, generated, or published-output-specific packages.
+
+The custom `opensrc` tool exposes only source resolution; it does not grant scout general shell access or permission to modify files.
 
 ## Config
 
@@ -35,7 +47,7 @@ Optional `config.json` next to `index.ts`:
 
 ## UI
 
-Default view shows medium detail (agent status, task preview, recent tools). Expand to see full task, all tool calls, complete output, and token usage.
+Default view shows agent status, task preview, and the 20 most recent completed tools. Expand to inspect the bounded tool audit (up to 500 calls) with success/error status. Each retained event includes its call ID; aggregate call/error counts remain complete even when older audit entries are dropped.
 
 ## Registering Agents from Other Extensions
 
@@ -49,7 +61,7 @@ Create markdown files with YAML frontmatter in your extension's directory (e.g. 
 ---
 name: my-agent
 description: Does a specific thing
-tools: web_search, video_extract
+tools: web_fetch, video_extract
 model: claude-sonnet-4-20250514
 ---
 
@@ -60,7 +72,7 @@ Frontmatter fields:
 - **name** (required) — unique agent name, used in `{ agent: "my-agent" }` calls
 - **description** — short description
 - **tools** — comma-separated list of tools the agent needs (builtin or extension)
-- **model** — model identifier (defaults to `anthropic/claude-sonnet-4-6`)
+- **model** — model identifier with an optional `:<thinking>` suffix (defaults to `anthropic/claude-sonnet-4-6`)
 
 The markdown body becomes the agent's system prompt.
 
@@ -122,7 +134,9 @@ If your agents need tools beyond the built-in set, those tools must be mapped in
 
 ```typescript
 const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
-  web_search: path.join(EXT_BASE, "web-search", "index.ts"),
+  fd: path.join(EXT_BASE, "file-search", "index.ts"),
+  rg: path.join(EXT_BASE, "file-search", "index.ts"),
+  opensrc: path.join(TOOLS_DIR, "opensrc.ts"),
   web_fetch: path.join(EXT_BASE, "web-fetch", "index.ts"),
   safe_bash: path.join(TOOLS_DIR, "safe-bash.ts"),
   video_extract: path.join(EXT_BASE, "video-extract", "index.ts"),
@@ -140,5 +154,6 @@ subagents/
 ├── index.ts           # Extension entry point
 ├── agents/            # Built-in agent configs (frontmatter + system prompt)
 └── tools/             # Extensions loaded into subagent processes
+    ├── opensrc.ts     # scoped Effect wrapper for upstream source resolution
     └── safe-bash.ts   # bash with dangerous command blocking
 ```

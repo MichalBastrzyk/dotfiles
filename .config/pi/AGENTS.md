@@ -5,7 +5,7 @@ Follow the rules below strictly
 - For frontend on web and electron use `/skill:agent-browser` to verify UI changes, flows, new components, and browser behavior.
 - Check the browser console after frontend changes.
 - Use browser tools to reduce manual testing by the user as much as possible.
-- Use `/skill:tmux` for long running processes like dev servers and others.
+- Prefer `/skill:background-terminals` for long-running processes such as dev servers, watchers, and streaming builds.
 - Keep tool usage focused. Do not load unnecessary skills.
 - When you need information, preferences, or decisions from the user, use the `ask_user_question` tool instead of asking in plain text. It provides a structured interactive UI with selectable options.
 

@@ -14,14 +14,13 @@ Never start implementing until you are **100% certain** of what needs to be done
 
 **Fill knowledge gaps with:**
 - **`ask_user_question`** — ambiguous requirements, preference between approaches, any detail that would materially change the implementation. One question per call. Never guess what the user wants.
-- **`subagent` scout** — how the codebase works, what patterns exist, which files are involved. Tools: `read`, `grep`, `find`, `ls`. Fast and cheap (Haiku).
-- **`subagent` researcher** — API docs, library behavior, migration guides, external knowledge. Tools: `web_search`, `web_fetch`.
+- **`subagent` scout** — how the codebase works, what patterns exist, which files are involved, and how external dependencies behave internally. It can research project source with `fd`/`rg` and resolve upstream dependency source with `opensrc`.
 - **`subagent` worker** — isolated code changes. Tools: `read`, `write`, `edit`, `safe_bash`. Use when the change is well-specified and doesn't need back-and-forth.
 
 **Before any non-trivial implementation, you must know:**
 - Exactly what the change does (confirmed with user)
 - Exactly which files are involved (confirmed with scout)
-- Exactly which APIs/patterns to use (confirmed with scout or researcher)
+- Exactly which APIs/patterns to use (confirmed with documentation or a scout)
 
 If any of those are fuzzy, you're not ready to implement.
 
@@ -38,7 +37,14 @@ Your context window is a finite, non-renewable resource. Every file you read dir
 
 **Never explore a codebase by reading files yourself.** That's what scouts are for.
 
-**Use parallel mode** (`tasks[]`) when dispatching multiple independent subagents — e.g. a scout investigating file structure while a researcher looks up API docs. Max 4 concurrent.
+**Use parallel mode** (`tasks[]`) when dispatching multiple independent subagents — e.g. scouts investigating separate parts of the codebase. Max 4 concurrent.
+
+### Focus Scout Tasks
+
+- Send one focused research question at a time and include all necessary paths, symbols, constraints, and expected evidence.
+- Use scout for repository exploration, dependency implementation research, and behavior that must be traced across both.
+- Name the dependency when known, but do not ask scout to scan `node_modules`; it will resolve the appropriate source and version with `opensrc`.
+- Keep implementation decisions and file modifications in the main agent. Treat scout reports as evidence to verify, not implementation instructions.
 
 ### When NOT to Use Subagents
 

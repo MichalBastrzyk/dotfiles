@@ -113,8 +113,9 @@ map("n", "<leader>tl", ":tabs<CR>", { desc = "List Tabs", noremap = true }) -- t
 vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/tpope/vim-sleuth" },
-	{ src = "https://github.com/Shatur/neovim-ayu" }
-})
+	{ src = "https://github.com/Shatur/neovim-ayu" },
+	{ src = "https://github.com/stevearc/oil.nvim" }
+}, { load = true })
 
 -- Colorscheme
 require("ayu").setup({
@@ -133,6 +134,13 @@ require("ayu").setup({
 })
 
 vim.cmd("colorscheme ayu-dark")
+
+require("oil").setup({
+	default_file_explorer = true,
+	view_options = {
+		show_hidden = true,
+	},
+})
 
 vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "master" }
