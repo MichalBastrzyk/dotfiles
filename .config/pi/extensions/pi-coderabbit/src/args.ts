@@ -16,6 +16,7 @@ export const usage = [
   "/cr base <branch>",
   "",
   "Optional flags:",
+  "  --dir <path>     Restrict the review to one folder",
   "  --light          Request the lighter review policy",
   "  --tracked-only   Exclude untracked files",
 ].join("\n");
@@ -36,6 +37,22 @@ export const parseReviewRequest = (input: string): ReviewRequest => {
   const trackedOnly = trackedOnlyIndex !== -1;
   if (trackedOnly) tokens.splice(trackedOnlyIndex, 1);
 
+  const directoryIndex = tokens.indexOf("--dir");
+  const directory = directoryIndex === -1 ? undefined : tokens[directoryIndex + 1];
+  if (directoryIndex !== -1) {
+    if (directory === undefined || directory.startsWith("--")) {
+      throw new InvalidReviewArguments({
+        message: `Missing path after '--dir'.\n\n${usage}`,
+      });
+    }
+    tokens.splice(directoryIndex, 2);
+  }
+  if (tokens.includes("--dir")) {
+    throw new InvalidReviewArguments({
+      message: "Only one --dir folder can be reviewed at a time.",
+    });
+  }
+
   if (tokens.some((token) => token.startsWith("--"))) {
     throw new InvalidReviewArguments({
       message: `Unknown option.\n\n${usage}`,
@@ -43,6 +60,7 @@ export const parseReviewRequest = (input: string): ReviewRequest => {
   }
 
   const includeUntracked = !trackedOnly;
+  const options = { light, directory };
   const [scope = "uncommitted", branch, ...extra] = tokens;
 
   if (extra.length > 0) {
@@ -54,7 +72,7 @@ export const parseReviewRequest = (input: string): ReviewRequest => {
   switch (scope) {
     case "uncommitted":
       return {
-        light,
+        ...options,
         scope: { kind: "uncommitted", includeUntracked },
       };
 
@@ -65,13 +83,13 @@ export const parseReviewRequest = (input: string): ReviewRequest => {
         });
       }
       return {
-        light,
+        ...options,
         scope: { kind: "committed" },
       };
 
     case "all":
       return {
-        light,
+        ...options,
         scope: { kind: "all", includeUntracked },
       };
 
@@ -82,7 +100,7 @@ export const parseReviewRequest = (input: string): ReviewRequest => {
         });
       }
       return {
-        light,
+        ...options,
         scope: { kind: "base", branch, includeUntracked },
       };
 
@@ -97,6 +115,7 @@ export const toCodeRabbitArguments = (request: ReviewRequest): ReadonlyArray<str
   const args = ["review", "--agent"];
 
   if (request.light) args.push("--light");
+  if (request.directory) args.push("--dir", request.directory);
 
   switch (request.scope.kind) {
     case "uncommitted":

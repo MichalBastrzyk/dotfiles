@@ -53,6 +53,7 @@ pi -e ./index.ts
 /cr committed
 /cr all
 /cr base main
+/cr uncommitted --dir packages/web
 /cr uncommitted --light
 /cr uncommitted --tracked-only
 ```
@@ -63,7 +64,7 @@ Default `/cr` behavior:
 coderabbit review --agent --uncommitted --include-untracked
 ```
 
-`--tracked-only` prevents `--include-untracked` from being added. Otherwise, Pi asks you to confirm that you inspected untracked files for secrets before including them. `--light` requests CodeRabbit's lighter local review policy.
+`--dir <path>` restricts the review to one folder, relative to the repository root. Run separate reviews for additional folders. `--tracked-only` prevents `--include-untracked` from being added. Otherwise, Pi asks you to confirm that you inspected untracked files for secrets before including them. `--light` requests CodeRabbit's lighter local review policy.
 
 ## Blocking review console
 

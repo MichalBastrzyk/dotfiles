@@ -69,6 +69,7 @@ export type ReviewScope =
 export interface ReviewRequest {
   readonly scope: ReviewScope;
   readonly light: boolean;
+  readonly directory?: string;
 }
 
 export interface MalformedLine {

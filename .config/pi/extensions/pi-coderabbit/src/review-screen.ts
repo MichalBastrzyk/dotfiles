@@ -39,7 +39,8 @@ export const formatDuration = (milliseconds: number): string => {
 };
 
 const scopeLabel = (state: ReviewState): string => {
-  const suffix = state.request.light ? " · light" : "";
+  const directory = state.request.directory ? ` · folder: ${state.request.directory}` : "";
+  const suffix = `${directory}${state.request.light ? " · light" : ""}`;
   switch (state.request.scope.kind) {
     case "uncommitted":
       return `${state.request.scope.includeUntracked ? "Uncommitted changes + untracked files" : "Uncommitted tracked changes"}${suffix}`;

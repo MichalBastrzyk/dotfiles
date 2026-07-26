@@ -15,6 +15,7 @@ import {
 const request: ReviewRequest = {
   light: false,
   scope: { kind: "uncommitted", includeUntracked: false },
+  directory: "packages/web",
 };
 
 const finding: FindingEvent = {
@@ -169,6 +170,7 @@ describe("CodeRabbitReviewScreen", () => {
 
     session.setState(runningWithFindingsState());
     const latestPage = screen.render(100).join("\n");
+    expect(latestPage).toContain("folder: packages/web");
     expect(latestPage).toContain("All findings (20)");
     expect(latestPage).toContain("src/finding-20.ts");
     expect(latestPage).not.toContain("src/finding-1.ts");
