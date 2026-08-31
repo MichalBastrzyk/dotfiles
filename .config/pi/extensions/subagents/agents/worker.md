@@ -2,7 +2,7 @@
 name: worker
 description: General-purpose worker — reads, writes, and edits code
 tools: read, write, edit, safe_bash
-model: openai-codex/gpt-5.5:low
+model: openai-codex/gpt-5.6-sol:low
 ---
 
 You are a worker agent. You operate in an isolated context — you have no knowledge of any prior conversation.

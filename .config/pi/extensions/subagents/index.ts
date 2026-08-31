@@ -117,6 +117,7 @@ const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
 	fd: path.join(EXT_BASE, "file-search", "index.ts"),
 	rg: path.join(EXT_BASE, "file-search", "index.ts"),
 	opensrc: path.join(TOOLS_DIR, "opensrc.ts"),
+	git_read: path.join(TOOLS_DIR, "git-read.ts"),
 	web_fetch: path.join(EXT_BASE, "web-fetch", "index.ts"),
 	safe_bash: path.join(TOOLS_DIR, "safe-bash.ts"),
 	video_extract: path.join(EXT_BASE, "video-extract", "index.ts"),
@@ -203,6 +204,8 @@ function formatToolPreview(name: string, args: Record<string, unknown>): string 
 			return `$ ${((args.command as string) || "").slice(0, 80)}`;
 		case "opensrc":
 			return `opensrc ${(args.source as string) || ""}`;
+		case "git_read":
+			return `git ${((args.command as string) || "").slice(0, 80)}`;
 		case "read":
 			return `read ${(args.path as string) || ""}`;
 		case "write":
@@ -322,7 +325,8 @@ function extractTextFromContent(content: unknown): string {
 	return "";
 }
 
-function extractToolArgsPreview(args: Record<string, unknown>): string {
+function extractToolArgsPreview(tool: string, args: Record<string, unknown>): string {
+	if (tool === "git_read") return `git ${String(args.command ?? "").slice(0, 100)}`;
 	if (args.command) return String(args.command).slice(0, 100);
 	if (args.path) return String(args.path);
 	if (args.query) return `"${String(args.query).slice(0, 80)}"`;
@@ -387,7 +391,7 @@ async function runSubagent(
 				if (evt.type === "tool_execution_start") {
 					const toolCallId = String(evt.toolCallId ?? `anonymous-${++anonymousToolCall}`);
 					const tool = String(evt.toolName ?? "unknown");
-					const args = extractToolArgsPreview((evt.args || {}) as Record<string, unknown>);
+					const args = extractToolArgsPreview(tool, (evt.args || {}) as Record<string, unknown>);
 					activeTools.set(toolCallId, { tool, args });
 					progress.toolCount++;
 					const count = (progress.toolCounts[tool] ??= { calls: 0, errors: 0 });

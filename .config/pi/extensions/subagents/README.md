@@ -4,7 +4,7 @@ A pi extension that registers a single `subagent` tool with two agents:
 
 | Agent | Tools | Model | Purpose |
 |-------|-------|-------|---------|
-| **scout** | read, find, ls, fd, rg, opensrc | openai-codex/gpt-5.6-luna:low | Local and dependency source research |
+| **scout** | read, find, ls, fd, rg, opensrc, git_read | openai-codex/gpt-5.6-luna:low | Local source, dependency internals, and git history research |
 | **worker** | read, write, edit, safe_bash | openai-codex/gpt-5.5:low | Code changes |
 
 ## Usage
@@ -36,6 +36,16 @@ Scout uses the [`opensrc`](https://github.com/vercel-labs/opensrc) CLI to inspec
 - `node_modules` is a fallback for private, linked, patched, generated, or published-output-specific packages.
 
 The custom `opensrc` tool exposes only source resolution; it does not grant scout general shell access or permission to modify files.
+
+## Read-only git inspection
+
+Scout's custom `git_read` tool answers questions about repository changes and history without any shell access. It takes a plain command string — `git_read { command: "diff --stat" }` — which is tokenized in-process and executed by spawning `git` directly with an argument array, never a shell. Only a fixed allowlist of read-only subcommands is accepted: `status`, `diff`, `log`, `show`, `blame`, `grep`, `ls-files`, `ls-tree`, `rev-parse`, `rev-list`, `describe`, `shortlog`, `merge-base`, `count-objects`, `for-each-ref`, `diff-tree`, `diff-index`, `diff-files`, `remote` (queries only), and `branch` (listing only).
+
+- The interface is a single `command` string on purpose: the model previously failed when asked to split the command into a `subcommand` + `args` array (it passed whole command lines, sometimes duplicating the subcommand). A leading `git` prefix is tolerated; shell features (pipes, redirects, `&&`, substitution, backticks) are rejected with an explanatory error and are never interpreted.
+- Mutating invocations are rejected before execution: `git branch <name>` (creation), `branch -d/-D/-m`, `remote add/set-url/...`, `--output=<file>`, and any non-allowlisted subcommand.
+- Git runs with `GIT_OPTIONAL_LOCKS=0` (no index/ref locks), `GIT_TERMINAL_PROMPT=0`, and `GIT_PAGER=cat`; the diff-family subcommands additionally get `--no-ext-diff --no-textconv` prepended, so a configured external diff driver or textconv can never make git run an external program while inspecting a diff. Even the inspection itself is non-mutating.
+- Output is capped at 16k chars with a truncation marker; the process is killed after 120s.
+- `git_read` is only listed for the `scout` agent; the `worker` agent (which has `safe_bash`) cannot call it.
 
 ## Config
 
