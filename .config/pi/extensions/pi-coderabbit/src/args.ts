@@ -1,7 +1,7 @@
 import { Schema } from "effect";
 import type { ReviewRequest } from "./domain.ts";
 
-export class InvalidReviewArguments extends Schema.TaggedErrorClass<InvalidReviewArguments>()(
+export class InvalidReviewArguments extends Schema.TaggedError<InvalidReviewArguments>()(
   "InvalidReviewArguments",
   {
     message: Schema.String,
@@ -11,6 +11,7 @@ export class InvalidReviewArguments extends Schema.TaggedErrorClass<InvalidRevie
 export const usage = [
   "/cr",
   "/cr uncommitted",
+  "/cr staged",
   "/cr committed",
   "/cr all",
   "/cr base <branch>",
@@ -76,15 +77,16 @@ export const parseReviewRequest = (input: string): ReviewRequest => {
         scope: { kind: "uncommitted", includeUntracked },
       };
 
+    case "staged":
     case "committed":
       if (trackedOnly) {
         throw new InvalidReviewArguments({
-          message: "--tracked-only is redundant with committed reviews.",
+          message: `--tracked-only is redundant with ${scope} reviews.`,
         });
       }
       return {
         ...options,
-        scope: { kind: "committed" },
+        scope: { kind: scope },
       };
 
     case "all":
@@ -123,6 +125,7 @@ export const toCodeRabbitArguments = (request: ReviewRequest): ReadonlyArray<str
       if (request.scope.includeUntracked) args.push("--include-untracked");
       break;
 
+    case "staged":
     case "committed":
       args.push("--committed");
       break;

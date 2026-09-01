@@ -17,9 +17,13 @@ import {
   GIT_INFO_CHANNEL,
   MODEL_INFO_CHANNEL,
   REFRESH_CHANNEL,
+  ACCOUNTS_INFO_CHANNEL,
   isGitInfoState,
   isModelInfoState,
+  isAccountsInfoState,
+  type AccountProviderUsageInfo,
 } from "../shared/dashboard-state.ts";
+import { formatResetDuration, usageBar, windowAbbr } from "../accounts/ui/account-row.ts";
 import collapseRead from "./collapse-read.ts";
 import inlineSlash from "./inline-slash.ts";
 
@@ -193,6 +197,7 @@ export default function uiCustomization(pi: ExtensionAPI) {
   let title = "pi";
   let modelInfo = emptyModelInfoState();
   let gitInfo = emptyGitInfoState();
+  let accountsInfo: AccountProviderUsageInfo[] = [];
   let requestRender: (() => void) | undefined;
   let activeTui: DashboardTui | undefined;
   let themeRemovalTimers: Array<ReturnType<typeof setTimeout>> = [];
@@ -206,6 +211,12 @@ export default function uiCustomization(pi: ExtensionAPI) {
   const stopGitListener = pi.events.on(GIT_INFO_CHANNEL, (value) => {
     if (!isGitInfoState(value)) return;
     gitInfo = value;
+    requestRender?.();
+  });
+
+  const stopAccountsListener = pi.events.on(ACCOUNTS_INFO_CHANNEL, (value) => {
+    if (!isAccountsInfoState(value)) return;
+    accountsInfo = value;
     requestRender?.();
   });
 
@@ -286,8 +297,37 @@ export default function uiCustomization(pi: ExtensionAPI) {
 
           const lines = [
             columns(directory, theme.fg("muted", model), width),
-            columns(theme.fg("muted", usage), theme.fg("muted", git), width),
           ];
+
+          const left = theme.fg("muted", usage);
+          const right = theme.fg("muted", git);
+          const activeAccount = accountsInfo.find((item) => item.active);
+          let center = "";
+          if (activeAccount) {
+            const chunks = activeAccount.windows.map((window) => {
+              const { bar, remaining } = usageBar({ used: 100 - window.remaining, limit: 100 }, 6);
+              const color = remaining >= 50 ? "success" : remaining >= 20 ? "warning" : "error";
+              const reset = window.resetsAt !== null ? ` ↻${formatResetDuration(window.resetsAt)}` : "";
+              return `${theme.fg("muted", windowAbbr(window.id))} ${theme.fg(color, bar)} ${remaining}%${theme.fg("dim", reset)}`;
+            }).join(theme.fg("dim", " · "));
+            center = `${theme.fg("text", sanitizeTerminalLabel(activeAccount.label))} ${theme.fg("dim", "·")} ${chunks}`;
+          }
+
+          const leftWidth = visibleWidth(left);
+          const rightWidth = visibleWidth(right);
+          if (leftWidth + rightWidth + 1 >= width) {
+            lines.push(columns(left, right, width));
+          } else {
+            const centerTrimmed = truncateToWidth(center, Math.max(0, width - leftWidth - rightWidth - 4), theme.fg("dim", "…"));
+            const centerWidth = visibleWidth(centerTrimmed);
+            const gapTotal = Math.max(1, width - leftWidth - centerWidth - rightWidth);
+            const gapLeft = centerWidth ? Math.floor(gapTotal / 2) : gapTotal;
+            lines.push(truncateToWidth(
+              `${left}${" ".repeat(gapLeft)}${centerTrimmed}${" ".repeat(gapTotal - gapLeft)}${right}`,
+              width,
+              theme.fg("dim", "…"),
+            ));
+          }
 
           // Extension statuses render after the two dashboard lines, one per row.
           const statuses = footerData.getExtensionStatuses();
@@ -317,6 +357,7 @@ export default function uiCustomization(pi: ExtensionAPI) {
     title = formatDirectory(ctx.cwd);
     modelInfo = emptyModelInfoState();
     gitInfo = emptyGitInfoState();
+    accountsInfo = [];
     install(ctx);
   });
 
@@ -327,6 +368,7 @@ export default function uiCustomization(pi: ExtensionAPI) {
   pi.on("session_shutdown", (_event, ctx) => {
     stopModelListener();
     stopGitListener();
+    stopAccountsListener();
     for (const timer of themeRemovalTimers) clearTimeout(timer);
     themeRemovalTimers = [];
     activeTui = undefined;

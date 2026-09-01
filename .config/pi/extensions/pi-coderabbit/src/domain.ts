@@ -62,6 +62,7 @@ export type CodeRabbitEvent =
 
 export type ReviewScope =
   | { readonly kind: "uncommitted"; readonly includeUntracked: boolean }
+  | { readonly kind: "staged" }
   | { readonly kind: "committed" }
   | { readonly kind: "all"; readonly includeUntracked: boolean }
   | { readonly kind: "base"; readonly branch: string; readonly includeUntracked: boolean };

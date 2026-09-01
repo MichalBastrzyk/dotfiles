@@ -51,7 +51,7 @@ const decodeStatus = Schema.decodeUnknownSync(StatusSchema);
 const decodeComplete = Schema.decodeUnknownSync(CompleteSchema);
 const decodeError = Schema.decodeUnknownSync(ErrorSchema);
 
-export class CodeRabbitLineParseError extends Schema.TaggedErrorClass<CodeRabbitLineParseError>()(
+export class CodeRabbitLineParseError extends Schema.TaggedError<CodeRabbitLineParseError>()(
   "CodeRabbitLineParseError",
   {
     line: Schema.String,

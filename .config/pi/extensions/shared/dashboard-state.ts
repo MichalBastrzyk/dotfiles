@@ -1,6 +1,7 @@
 export const MODEL_INFO_CHANNEL = "dashboard:model-info";
 export const GIT_INFO_CHANNEL = "dashboard:git-info";
 export const REFRESH_CHANNEL = "dashboard:refresh";
+export const ACCOUNTS_INFO_CHANNEL = "dashboard:accounts-info";
 
 export interface ModelInfoState {
   provider: string;
@@ -43,6 +44,16 @@ export function emptyModelInfoState(): ModelInfoState {
   };
 }
 
+export interface AccountUsageWindowInfo { id: string; remaining: number; resetsAt: number | null }
+export interface AccountProviderUsageInfo {
+  provider: string;
+  accountId: string;
+  label: string;
+  active: boolean;
+  plan: string | null;
+  windows: AccountUsageWindowInfo[];
+}
+
 export function emptyGitInfoState(): GitInfoState {
   return {
     isRepository: false,
@@ -81,7 +92,23 @@ export function isModelInfoState(value: unknown): value is ModelInfoState {
   );
 }
 
-function isPullRequestInfo(value: unknown): value is PullRequestInfo {
+export function isAccountsInfoState(value: unknown): value is AccountProviderUsageInfo[] {
+  if (!Array.isArray(value)) return false;
+  return value.every((item) => {
+    if (!isRecord(item)) return false;
+    return (
+      typeof item.provider === "string" &&
+      typeof item.accountId === "string" &&
+      typeof item.label === "string" &&
+      typeof item.active === "boolean" &&
+      (item.plan === null || typeof item.plan === "string") &&
+      Array.isArray(item.windows) &&
+      item.windows.every((window) => isRecord(window) && typeof window.id === "string" && isFiniteNumber(window.remaining) && (window.resetsAt === null || isFiniteNumber(window.resetsAt)))
+    );
+  });
+}
+
+export function isPullRequestInfo(value: unknown): value is PullRequestInfo {
   if (!isRecord(value)) return false;
 
   return (

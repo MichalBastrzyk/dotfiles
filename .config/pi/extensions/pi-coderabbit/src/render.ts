@@ -13,6 +13,8 @@ const scopeLabel = (request: ReviewRequest): string => {
   switch (request.scope.kind) {
     case "uncommitted":
       return request.scope.includeUntracked ? "uncommitted + untracked" : "uncommitted tracked files";
+    case "staged":
+      return "staged changes";
     case "committed":
       return "committed changes";
     case "all":

@@ -22,6 +22,21 @@ describe("CodeRabbit arguments", () => {
     ]);
   });
 
+  it("reviews staged changes through a committed snapshot", () => {
+    expect(toCodeRabbitArguments(parseReviewRequest("staged --light"))).toEqual([
+      "review",
+      "--agent",
+      "--light",
+      "--committed",
+    ]);
+  });
+
+  it("rejects tracked-only staged reviews", () => {
+    expect(() => parseReviewRequest("staged --tracked-only")).toThrow(
+      "--tracked-only is redundant with staged reviews.",
+    );
+  });
+
   it("supports tracked-only uncommitted reviews", () => {
     expect(toCodeRabbitArguments(parseReviewRequest("uncommitted --tracked-only"))).toEqual([
       "review",

@@ -50,6 +50,7 @@ pi -e ./index.ts
 ```text
 /cr
 /cr uncommitted
+/cr staged
 /cr committed
 /cr all
 /cr base main
@@ -64,7 +65,9 @@ Default `/cr` behavior:
 coderabbit review --agent --uncommitted --include-untracked
 ```
 
-`--dir <path>` restricts the review to one folder, relative to the repository root. Run separate reviews for additional folders. `--tracked-only` prevents `--include-untracked` from being added. Otherwise, Pi asks you to confirm that you inspected untracked files for secrets before including them. `--light` requests CodeRabbit's lighter local review policy.
+`/cr staged` reviews only the snapshot currently stored in Git's index. The extension creates a temporary commit object from the index, checks it out in a detached temporary worktree, and runs CodeRabbit with `--committed` there. The original repository's HEAD, branch, index, working tree, and untracked files are not changed. The temporary worktree is removed after success, failure, or cancellation. If nothing is staged, the review fails before CodeRabbit starts.
+
+`--dir <path>` restricts the review to one folder, relative to the repository root. Run separate reviews for additional folders. `--tracked-only` prevents `--include-untracked` from being added; staged and committed reviews reject the flag because it has no meaning for those scopes. Otherwise, Pi asks you to confirm that you inspected untracked files for secrets before including them. `--light` requests CodeRabbit's lighter local review policy.
 
 ## Blocking review console
 
@@ -95,8 +98,8 @@ After completion, the result stays open until you act:
 ## Runtime behavior
 
 1. `/cr` waits until the current Pi agent turn, retries, compaction retries, and queued continuations are fully idle.
-2. The extension locates the Git repository root and starts CodeRabbit with an argument array, not a shell command.
-3. `stdout` and `stderr` are drained concurrently while JSONL events update the blocking console.
+2. The extension locates the Git repository root. For a staged review, it creates and checks out an isolated temporary commit containing exactly the index snapshot.
+3. It starts CodeRabbit with an argument array, not a shell command. `stdout` and `stderr` are drained concurrently while JSONL events update the blocking console.
 4. Known events are validated and normalized: `review_context`, `status`, `heartbeat`, `finding`, `error`, and `complete`.
 5. Heartbeats refresh liveness without flooding the activity log.
 6. Unknown additive events are ignored safely; malformed lines are recorded without aborting the stream.

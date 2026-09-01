@@ -44,6 +44,8 @@ const scopeLabel = (state: ReviewState): string => {
   switch (state.request.scope.kind) {
     case "uncommitted":
       return `${state.request.scope.includeUntracked ? "Uncommitted changes + untracked files" : "Uncommitted tracked changes"}${suffix}`;
+    case "staged":
+      return `Staged changes${suffix}`;
     case "committed":
       return `Committed changes${suffix}`;
     case "all":
