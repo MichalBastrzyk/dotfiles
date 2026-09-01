@@ -77,11 +77,7 @@ mk-game-folders() {
 }
 
 # Pi Coding Agent Setup
-unalias pi 2>/dev/null
-pi() {
-   PI_CODING_AGENT_DIR="$HOME/.config/pi" \
-   PI_CODING_AGENT_SESSION_DIR="$HOME/.local/share/pi" \
-   fnm exec --using=25 -- pi --no-skills --skill ~/.config/pi/skills "$@"
-}
+export PI_CODING_AGENT_DIR="$HOME/.config/pi" 
+export PI_CODING_AGENT_SESSION_DIR="$HOME/.local/share/pi" 
 
 alias cr="coderabbit"

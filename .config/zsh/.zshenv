@@ -25,7 +25,7 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 export BUN_INSTALL="$HOME/.bun"
-export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:/opt/homebrew/opt/ruby/bin:$GOPATH/bin:$HOME/.local/bin/:$BUN_INSTALL/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:/opt/homebrew/opt/ruby/bin:$GOPATH/bin:$HOME/.local/bin/:$BUN_INSTALL/bin:$HOME/.cargo/bin:$PATH"
 
 # Load secrets file
 ZSH_SECRETS="$HOME/.config/zsh/secrets.zsh"
