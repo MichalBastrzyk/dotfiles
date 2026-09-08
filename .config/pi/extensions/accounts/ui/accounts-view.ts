@@ -1,4 +1,5 @@
 import type { Account, AccountUsage, ProviderId } from "../domain.ts";
+import { PROVIDER_IDS } from "../providers/catalog.ts";
 import { sanitizeDisplay } from "./account-row.ts";
 import { decodeAccountsInput, defaultKeybindings, keyHint, type AccountsCommand, type AccountsKeybindings } from "./accounts-input.ts";
 import { buildRows, renderAccountRow, renderBusyBox, type AccountRow } from "./accounts-render.ts";
@@ -30,7 +31,7 @@ export interface AccountsViewOptions {
   getRows?: () => number;
 }
 
-const order: ProviderId[] = ["openai-codex", "opencode-go"];
+const order: ProviderId[] = [...PROVIDER_IDS];
 const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 type Color = Parameters<NonNullable<AccountsTheme["fg"]>>[0];
 type RenderContext = {

@@ -1,5 +1,6 @@
 import { Effect, Fiber } from "effect";
 import type { Account, AccountsState, ProviderId } from "../domain.ts";
+import { PROVIDER_IDS, PROVIDERS } from "../providers/catalog.ts";
 import type { AccountStoreApi } from "../services/account-store.ts";
 import type { RuntimeAuthCoordinator } from "../services/runtime-auth.ts";
 import type { SessionService } from "../services/session-service.ts";
@@ -7,7 +8,7 @@ import type { UsageService } from "../services/usage-service.ts";
 import { runEffectAsPromise as run } from "../services/run-effect.ts";
 import type { AccountProvider } from "../providers/provider.ts";
 import { AccountsView, type AccountsViewAction } from "../ui/accounts-view.ts";
-import { SecretInput } from "../ui/secret-input.ts";
+import { promptApiKey } from "../ui/api-key-login.ts";
 import { sanitizeDisplay } from "../ui/account-row.ts";
 
 interface AccountsCommandBinding {
@@ -30,9 +31,10 @@ interface CommandOptions {
   getBinding: () => AccountsCommandBinding | undefined;
   isCurrent: (binding: AccountsCommandBinding) => boolean;
   broadcastUsage: (binding: AccountsCommandBinding) => void | Promise<void>;
+  syncCheaperInferenceModels?: (accountId?: string) => void;
 }
 
-const nameOf = (provider: ProviderId) => provider === "openai-codex" ? "OpenAI" : "OpenCode";
+const nameOf = (provider: ProviderId) => PROVIDERS[provider].shortName;
 
 const notify = (ctx: any, message: string, level: "info" | "error" = "info") => {
   if (ctx.hasUI) {
@@ -63,10 +65,10 @@ const runCancelable = async <A>(
   }
 };
 
-const activeAccounts = (binding: AccountsCommandBinding) => ({
-  "openai-codex": binding.runtime.activeAccount("openai-codex"),
-  "opencode-go": binding.runtime.activeAccount("opencode-go"),
-});
+const activeAccounts = (binding: AccountsCommandBinding) =>
+  Object.fromEntries(
+    PROVIDER_IDS.map((provider) => [provider, binding.runtime.activeAccount(provider)]),
+  ) as Partial<Record<ProviderId, string>>;
 
 const persistSelection = async (
   binding: AccountsCommandBinding,
@@ -102,24 +104,38 @@ const findPreviousAccount = async (
   return { id, account };
 };
 
-const accountLabel = (account: Pick<Account, "id" | "label">) => sanitizeDisplay(account.label || account.id);
-const previousLabel = ({ id, account }: PreviousAccount) => accountLabel(account ?? { id: id || "current", label: "" });
+const accountLabel = (account: Pick<Account, "id" | "label">) =>
+  sanitizeDisplay(account.label || account.id);
+const previousLabel = ({ id, account }: PreviousAccount) =>
+  accountLabel(account ?? { id: id || "current", label: "" });
 
-const switchSuccessMessage = (account: Account, previous: PreviousAccount) => previous.account
-  ? `Switched ${nameOf(account.provider)} account: ${accountLabel(previous.account)} → ${accountLabel(account)}`
-  : `Activated ${nameOf(account.provider)} account: ${accountLabel(account)}`;
+const switchSuccessMessage = (account: Account, previous: PreviousAccount) =>
+  previous.account
+    ? `Switched ${nameOf(account.provider)} account: ${accountLabel(previous.account)} → ${accountLabel(account)}`
+    : `Activated ${nameOf(account.provider)} account: ${accountLabel(account)}`;
 
 const switchFailureCategory = (error: unknown) => {
   const tag = (error as any)?._tag;
-  return tag === "UsageAuthError" || tag === "CredentialRefreshError" ? "credentials rejected" : "unavailable";
+  return tag === "UsageAuthError" || tag === "CredentialRefreshError"
+    ? "credentials rejected"
+    : "unavailable";
 };
 
-const switchFailureNotice = (account: Account, previous: PreviousAccount, error: unknown, cancelled: boolean) => cancelled
-  ? { message: `Switch cancelled — "${previousLabel(previous)}" stays active.`, level: "info" as const }
-  : {
-      message: `Could not switch to "${accountLabel(account)}" — "${previousLabel(previous)}" stays active. (${switchFailureCategory(error)})`,
-      level: "error" as const,
-    };
+const switchFailureNotice = (
+  account: Account,
+  previous: PreviousAccount,
+  error: unknown,
+  cancelled: boolean,
+) =>
+  cancelled
+    ? {
+        message: `Switch cancelled — "${previousLabel(previous)}" stays active.`,
+        level: "info" as const,
+      }
+    : {
+        message: `Could not switch to "${accountLabel(account)}" — "${previousLabel(previous)}" stays active. (${switchFailureCategory(error)})`,
+        level: "error" as const,
+      };
 
 const switchAccount = async (
   options: CommandOptions,
@@ -144,6 +160,8 @@ const switchAccount = async (
     await persistSelection(binding, account.provider, account.id, previous.id);
     view.setActiveAccounts(activeAccounts(binding));
     notify(ctx, switchSuccessMessage(account, previous));
+    if (account.provider === "cheaper-inference")
+      options.syncCheaperInferenceModels?.(account.id);
     void options.broadcastUsage(binding);
   } catch (error) {
     const notice = switchFailureNotice(account, previous, error, abort.signal.aborted);
@@ -201,7 +219,7 @@ const removeAccount = async (
   binding: AccountsCommandBinding,
   account: Account,
 ) => {
-  if (!await ctx.ui.confirm("Remove account?", account.label || account.id)) {
+  if (!(await ctx.ui.confirm("Remove account?", account.label || account.id))) {
     return false;
   }
 
@@ -220,16 +238,17 @@ const removeAccount = async (
 };
 
 const chooseProvider = async (ctx: any): Promise<ProviderId | undefined> => {
-  const choice = await ctx.ui.select("Provider", ["OpenAI Codex", "OpenCode Go"]);
-  if (choice === "OpenAI Codex") return "openai-codex";
-  if (choice === "OpenCode Go") return "opencode-go";
+  const labels = PROVIDER_IDS.map((provider) => PROVIDERS[provider].name);
+  const choice = await ctx.ui.select("Provider", labels);
+  return PROVIDER_IDS.find((provider) => PROVIDERS[provider].name === choice);
 };
 
 const accountIdentity = (before: AccountsState, provider: ProviderId, label: string) => {
-  const base = label
-    .toLowerCase()
-    .replace(/[^a-z0-9._-]+/gu, "-")
-    .replace(/^-+|-+$/gu, "") || "account";
+  const base =
+    label
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]+/gu, "-")
+      .replace(/^-+|-+$/gu, "") || "account";
   let id = base;
   let n = 2;
 
@@ -247,16 +266,8 @@ const createProviderAccount = async (
   id: string,
   label: string,
 ) => {
-  if (provider === "opencode-go") {
-    const key = await ctx.ui.custom(
-      (tui: any, theme: any, _kb: any, done: (value?: string) => void) =>
-        new SecretInput({
-          prompt: "OpenCode API key: ",
-          theme,
-          requestRender: () => tui.requestRender(),
-          onDone: (result) => done(result.type === "submit" ? result.value : undefined),
-        }),
-    );
+  if (PROVIDERS[provider].auth === "api-key") {
+    const key = await promptApiKey(ctx, provider);
     if (!key) {
       return;
     }
@@ -276,18 +287,25 @@ const createProviderAccount = async (
   }
 };
 
-const activateCreatedAccount = async (binding: AccountsCommandBinding, account: Account) => {
+const activateCreatedAccount = async (
+  options: CommandOptions,
+  binding: AccountsCommandBinding,
+  account: Account,
+) => {
   const previous = binding.runtime.activeAccount(account.provider);
   await run(binding.runtime.activate(account.provider, account.id));
   await persistSelection(binding, account.provider, account.id, previous);
+  if (account.provider === "cheaper-inference")
+    options.syncCheaperInferenceModels?.(account.id);
 };
 
 const addAccount = async (
-  deps: AccountsCommandDependencies,
+  options: CommandOptions,
   ctx: any,
   binding: AccountsCommandBinding,
   before: AccountsState,
 ) => {
+  const deps = options.deps;
   const provider = await chooseProvider(ctx);
   if (!provider) {
     return;
@@ -320,7 +338,7 @@ const addAccount = async (
     );
   }
 
-  await activateCreatedAccount(binding, account);
+  await activateCreatedAccount(options, binding, account);
   notify(ctx, `${nameOf(provider)} account added.`);
 };
 
@@ -332,21 +350,12 @@ const processFollowUpAction = async (
 ) => {
   try {
     if (action.type === "remove") {
-      if (!await removeAccount(options.deps, ctx, binding, action.account)) return;
+      if (!(await removeAccount(options.deps, ctx, binding, action.account))) return;
     } else {
-      await addAccount(
-        options.deps,
-        ctx,
-        binding,
-        await run(options.deps.store.load()),
-      );
+      await addAccount(options, ctx, binding, await run(options.deps.store.load()));
     }
   } catch {
-    notify(
-      ctx,
-      "Accounts operation failed. Run /accounts to review saved accounts.",
-      "error",
-    );
+    notify(ctx, "Accounts operation failed. Run /accounts to review saved accounts.", "error");
   }
   void options.broadcastUsage(binding);
 };

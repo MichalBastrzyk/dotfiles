@@ -23,7 +23,7 @@ import {
   isAccountsInfoState,
   type AccountProviderUsageInfo,
 } from "../shared/dashboard-state.ts";
-import { formatResetDuration, usageBar, windowAbbr } from "../accounts/ui/account-row.ts";
+import { formatResetDuration, formatSpendUsd, usageBar, windowAbbr } from "../accounts/ui/account-row.ts";
 import collapseRead from "./collapse-read.ts";
 import inlineSlash from "./inline-slash.ts";
 
@@ -309,8 +309,18 @@ export default function uiCustomization(pi: ExtensionAPI) {
               const color = remaining >= 50 ? "success" : remaining >= 20 ? "warning" : "error";
               const reset = window.resetsAt !== null ? ` ↻${formatResetDuration(window.resetsAt)}` : "";
               return `${theme.fg("muted", windowAbbr(window.id))} ${theme.fg(color, bar)} ${remaining}%${theme.fg("dim", reset)}`;
-            }).join(theme.fg("dim", " · "));
-            center = `${theme.fg("text", sanitizeTerminalLabel(activeAccount.label))} ${theme.fg("dim", "·")} ${chunks}`;
+            });
+            const summary = activeAccount.summary;
+            if (summary && (summary.spendUsd !== undefined || summary.requests !== undefined)) {
+              const parts: string[] = [];
+              if (summary.spendUsd !== undefined) parts.push(formatSpendUsd(summary.spendUsd));
+              if (summary.requests !== undefined) parts.push(`${Math.round(summary.requests).toLocaleString("en-US")} req`);
+              if (parts.length) chunks.push(parts.join(" · "));
+            }
+            const body = chunks.join(theme.fg("dim", " · "));
+            center = body
+              ? `${theme.fg("text", sanitizeTerminalLabel(activeAccount.label))} ${theme.fg("dim", "·")} ${body}`
+              : theme.fg("text", sanitizeTerminalLabel(activeAccount.label));
           }
 
           const leftWidth = visibleWidth(left);

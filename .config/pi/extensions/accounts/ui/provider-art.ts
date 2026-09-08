@@ -7,7 +7,7 @@ import type { ProviderId } from "../domain.ts";
  * To swap in other art: keep each logo <= 30 columns wide and <= 5 lines tall.
  * Generator: https://patorjk.com/software/taag (font: "smblock")
  */
-export const PROVIDER_ART: Readonly<Record<ProviderId, readonly string[]>> = {
+export const PROVIDER_ART: Record<ProviderId, readonly string[]> = {
   "openai-codex": [
     "▞▀▖         ▞▀▖▜▘",
     "▌ ▌▛▀▖▞▀▖▛▀▖▙▄▌▐ ",
@@ -20,4 +20,10 @@ export const PROVIDER_ART: Readonly<Record<ProviderId, readonly string[]>> = {
     "▌ ▌▙▄▘▛▀ ▌ ▌▌ ▖▌ ▌▌ ▌▛▀ ",
     "▝▀ ▌  ▝▀▘▘ ▘▝▀ ▝▀ ▝▀▘▝▀▘",
   ],
+      "cheaper-inference": [
+        "   ▌",
+        "▞▀▘▌▛▀▖▞▀▖▞▀▖▛▀▖",
+        "▌ ▖▌▌ ▌▛▀ ▛▀ ▙▄▘",
+        "▝▀ ▘▘ ▘▝▀▘▝▀▘▌ ",
+    ],
 };

@@ -3,7 +3,7 @@
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "max",
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "editorPaddingX": 1,
   "enabledModels": [
     "opencode-go/deepseek-v4-pro",
@@ -15,7 +15,8 @@
     "openai-codex/gpt-5.6-terra",
     "opencode-go/glm-5.3-flash",
     "opencode-go/glm-5.3",
-    "openai-codex/gpt-6-astra"
+    "openai-codex/gpt-6-astra",
+    "cheaper-inference/glm-5.3-flash"
   ],
   "packages": [
     "git:https://github.com/ghoseb/pi-askuserquestion.git"

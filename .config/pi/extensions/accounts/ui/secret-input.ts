@@ -71,6 +71,8 @@ export class SecretInput {
     if (decoded.command !== "submit" && decoded.command !== "cancel") this.options.requestRender();
   }
 
+  isEmpty() { return this.value.length === 0; }
+
   invalidate() {}
   dispose() { this.clear(); this.disposed = true; }
   private insert(printable: string[]) { this.value.splice(this.cursor, 0, ...printable); this.cursor += printable.length; }

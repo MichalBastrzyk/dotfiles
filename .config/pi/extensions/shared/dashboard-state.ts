@@ -45,6 +45,12 @@ export function emptyModelInfoState(): ModelInfoState {
 }
 
 export interface AccountUsageWindowInfo { id: string; remaining: number; resetsAt: number | null }
+export interface AccountUsageSummaryInfo {
+  spendUsd?: number;
+  spendUsdToday?: number;
+  requests?: number;
+  availableUsd?: number;
+}
 export interface AccountProviderUsageInfo {
   provider: string;
   accountId: string;
@@ -52,6 +58,7 @@ export interface AccountProviderUsageInfo {
   active: boolean;
   plan: string | null;
   windows: AccountUsageWindowInfo[];
+  summary?: AccountUsageSummaryInfo | null;
 }
 
 export function emptyGitInfoState(): GitInfoState {
@@ -92,6 +99,17 @@ export function isModelInfoState(value: unknown): value is ModelInfoState {
   );
 }
 
+const isSummaryInfo = (value: unknown): value is AccountUsageSummaryInfo => {
+  if (value === null || value === undefined) return true;
+  if (!isRecord(value)) return false;
+  const { spendUsd, spendUsdToday, requests, availableUsd } = value as Record<string, unknown>;
+  return (
+    (spendUsd === undefined || isFiniteNumber(spendUsd)) &&
+    (spendUsdToday === undefined || isFiniteNumber(spendUsdToday)) &&
+    (requests === undefined || isFiniteNumber(requests)) &&
+    (availableUsd === undefined || isFiniteNumber(availableUsd))
+  );
+};
 export function isAccountsInfoState(value: unknown): value is AccountProviderUsageInfo[] {
   if (!Array.isArray(value)) return false;
   return value.every((item) => {
@@ -103,7 +121,8 @@ export function isAccountsInfoState(value: unknown): value is AccountProviderUsa
       typeof item.active === "boolean" &&
       (item.plan === null || typeof item.plan === "string") &&
       Array.isArray(item.windows) &&
-      item.windows.every((window) => isRecord(window) && typeof window.id === "string" && isFiniteNumber(window.remaining) && (window.resetsAt === null || isFiniteNumber(window.resetsAt)))
+      item.windows.every((window) => isRecord(window) && typeof window.id === "string" && isFiniteNumber(window.remaining) && (window.resetsAt === null || isFiniteNumber(window.resetsAt))) &&
+      (item.summary === undefined || isSummaryInfo(item.summary))
     );
   });
 }

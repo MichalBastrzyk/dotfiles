@@ -46,8 +46,16 @@ export const makeCredentialService = ({ store, oauth, locksDir, clock = { now: D
       return yield* requestKey(credential, latest.id);
     }));
   });
-  return { resolve: (provider, id) => provider === "openai-codex" ? resolveOpenAI(id) : Effect.flatMap(store.get(provider, id), (account) =>
-    account.provider === "opencode-go"
-      ? Effect.succeed(account.key)
-      : Effect.fail(new AccountNotFoundError({ provider, accountId: id, message: "Account was not found" }))) };
+  return {
+    resolve: (provider, id) =>
+      provider === "openai-codex"
+        ? resolveOpenAI(id)
+        : Effect.flatMap(store.get(provider, id), (account) =>
+            account.kind === "api-key"
+              ? Effect.succeed((account as { key: string }).key)
+              : Effect.fail(
+                new AccountNotFoundError({ provider, accountId: id, message: "Account was not found" }),
+              ),
+          ),
+  };
 };
