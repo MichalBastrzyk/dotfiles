@@ -1,9 +1,13 @@
 import type { ProviderId } from "./domain.ts";
+import { isProviderId, PROVIDER_IDS, PROVIDERS } from "./providers/catalog.ts";
 import type { AccountStoreApi } from "./services/account-store.ts";
 import type { CredentialService } from "./services/credential-service.ts";
 import { makeAccountSelectionPolicy } from "./services/selection-policy.ts";
 import { makeSessionService, type SessionService } from "./services/session-service.ts";
-import { makeRuntimeAuthCoordinator, type RuntimeAuthCoordinator } from "./services/runtime-auth.ts";
+import {
+  makeRuntimeAuthCoordinator,
+  type RuntimeAuthCoordinator,
+} from "./services/runtime-auth.ts";
 import type { UsageService } from "./services/usage-service.ts";
 import { runEffectAsPromise as run } from "./services/run-effect.ts";
 import type { AccountProvider } from "./providers/provider.ts";
@@ -18,6 +22,7 @@ export interface AccountsDependencies {
   usage: UsageService;
   cleanupSessionResources?(sessionId: string): unknown | Promise<unknown>;
   oauthInteraction?(ctx: any, signal: AbortSignal): Promise<any>;
+  syncCheaperInferenceModels?(accountId?: string): void;
 }
 
 type Binding = {
@@ -30,8 +35,8 @@ type Binding = {
 };
 
 const providerOf = (value?: string): ProviderId | undefined =>
-  value === "openai-codex" || value === "opencode-go" ? value : undefined;
-const nameOf = (provider: ProviderId) => provider === "openai-codex" ? "OpenAI" : "OpenCode";
+  isProviderId(value) ? value : undefined;
+const nameOf = (provider: ProviderId) => PROVIDERS[provider].shortName;
 const notify = (ctx: any, message: string, level: "info" | "error" = "info") => {
   if (ctx.hasUI) ctx.ui.notify(message, level);
 };
@@ -44,8 +49,8 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
     stale.controllers.clear();
 
     await Promise.allSettled([
-      ...(["openai-codex", "opencode-go"] as const).map((provider) =>
-        run(stale.runtime.clear(provider))
+      ...([...PROVIDER_IDS] as ProviderId[]).map((provider) =>
+        run(stale.runtime.clear(provider)),
       ),
       Promise.resolve().then(() => deps.cleanupSessionResources?.(stale.sessionId)),
     ]);
@@ -58,7 +63,9 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
     try {
       data = await run(deps.store.load());
     } catch {
-      await run(current.runtime.invalidate(provider, current.session.get(provider) ?? active ?? "unknown"));
+      await run(
+        current.runtime.invalidate(provider, current.session.get(provider) ?? active ?? "unknown"),
+      );
       return;
     }
 
@@ -71,6 +78,7 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
     try {
       await run(deps.store.get(provider, id));
       await run(current.runtime.ensureActive(provider, id));
+      if (provider === "cheaper-inference") deps.syncCheaperInferenceModels?.(id);
     } catch {
       await run(current.runtime.invalidate(provider, id));
     }
@@ -80,9 +88,7 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
     try {
       const accounts = await run(deps.store.list());
       const usages = await run(deps.usage.all(accounts));
-      const byAccount = new Map(
-        usages.map((usage) => [`${usage.provider}/${usage.accountId}`, usage])
-      );
+      const byAccount = new Map(usages.map((usage) => [`${usage.provider}/${usage.accountId}`, usage]));
       const currentProvider = providerOf(current.ctx.model?.provider);
       const infos = [];
 
@@ -95,7 +101,7 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
           remaining: Math.round(
             window.limit > 0
               ? Math.max(0, Math.min(100, 100 - (window.used / window.limit) * 100))
-              : 0
+              : 0,
           ),
           resetsAt: window.resetsAt ?? null,
         }));
@@ -103,10 +109,12 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
           provider: account.provider,
           accountId: account.id,
           label: account.label || account.id,
-          active: currentProvider === account.provider
-            && current.runtime.activeAccount(account.provider) === account.id,
+          active:
+            currentProvider === account.provider &&
+            current.runtime.activeAccount(account.provider) === account.id,
           plan: usage.plan ?? null,
           windows,
+          summary: usage.summary ?? null,
         });
       }
 
@@ -132,6 +140,7 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
       getBinding: () => binding,
       isCurrent: (candidate) => binding === candidate,
       broadcastUsage,
+      syncCheaperInferenceModels: (accountId) => deps.syncCheaperInferenceModels?.(accountId),
     }),
   });
 
@@ -142,7 +151,7 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
 
     const session = makeSessionService(ctx.sessionManager);
     if (event.reason === "fork") {
-      for (const provider of ["openai-codex", "opencode-go"] as const) {
+      for (const provider of [...PROVIDER_IDS] as ProviderId[]) {
         if (session.get(provider)) session.clear(provider);
       }
     }
@@ -163,10 +172,17 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
     binding = created;
     created.interval = setInterval(() => void broadcastUsage(created), 29_000);
 
+    // Activate the current model provider plus CheaperInference in the
+    // background: /model lists only auth-configured providers, and CI has
+    // no Pi-level auth besides the runtime key, so without this its models
+    // stay invisible while another provider's model is active. Keys are
+    // per-provider, so this cannot shadow OpenAI/OpenCode auth.
     const provider = providerOf(ctx.model?.provider);
-    if (provider) {
+    const providersToActivate = new Set<ProviderId>(["cheaper-inference"]);
+    if (provider) providersToActivate.add(provider);
+    for (const candidate of providersToActivate) {
       try {
-        await activateFor(created, provider);
+        await activateFor(created, candidate);
       } catch {
         // before_agent_start will fail closed.
       }
@@ -194,9 +210,10 @@ export const createAccountsExtension = (deps: AccountsDependencies) => (pi: any)
     ctx.abort();
     void run(deps.store.load())
       .then((data) => {
-        const id = makeAccountSelectionPolicy(current.session, data).select(provider)
-          ?? current.runtime.activeAccount(provider)
-          ?? "unknown";
+        const id =
+          makeAccountSelectionPolicy(current.session, data).select(provider) ??
+          current.runtime.activeAccount(provider) ??
+          "unknown";
         return run(deps.store.get(provider, id))
           .catch(() => undefined)
           .then((account) => {

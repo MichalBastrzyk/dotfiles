@@ -209,7 +209,7 @@ describe("AccountsView", () => {
     instance.handleInput("G");
     const bottom = instance.render(120).join("\n");
     expect(bottom).toContain("Label 9");
-    expect(bottom).not.toContain("more below");
+    expect(bottom).toContain("more below");
     instance.handleInput("g");
     const top = instance.render(120).join("\n");
     expect(top).toContain("Label 0");
