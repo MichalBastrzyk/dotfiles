@@ -1,0 +1,35 @@
+---
+- name: Ensure keyring directory exists
+  ansible.builtin.file:
+    path: /usr/share/keyrings
+    state: directory
+    mode: "0755"
+  when: not ansible_check_mode
+
+- name: Install official Tailscale signing key
+  ansible.builtin.get_url:
+    url: "https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_facts['distribution_release'] }}.noarmor.gpg"
+    dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+    mode: "0644"
+  when: not ansible_check_mode
+
+- name: Configure official Tailscale package source
+  ansible.builtin.get_url:
+    url: "https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_facts['distribution_release'] }}.tailscale-keyring.list"
+    dest: /etc/apt/sources.list.d/tailscale.list
+    mode: "0644"
+  when: not ansible_check_mode
+
+- name: Install Tailscale (authentication is a separate manual step)
+  ansible.builtin.apt:
+    name: tailscale
+    state: present
+    update_cache: true
+  when: not ansible_check_mode
+
+- name: Enable Tailscale daemon
+  ansible.builtin.service:
+    name: tailscaled
+    state: started
+    enabled: true
+  when: not ansible_check_mode

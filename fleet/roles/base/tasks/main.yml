@@ -1,0 +1,24 @@
+---
+- name: Install base server tools
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - git
+      - gnupg
+      - openssh-server
+      - python3-apt
+      - python3-venv
+      - sudo
+      - unzip
+      - wget
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Keep SSH server enabled
+  ansible.builtin.service:
+    name: ssh
+    state: started
+    enabled: true
+  when: not ansible_check_mode

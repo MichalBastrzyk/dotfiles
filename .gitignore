@@ -39,3 +39,13 @@
 /.config/pi/models-store.json
 /.config/homebrew/trust.json.lock
 /node_modules
+# Fleet: local state and credentials
+/fleet/.cache/
+/fleet/.secrets/
+/fleet/**/*.retry
+/fleet/**/.env
+/fleet/**/.env.*
+/fleet/**/secrets.yml
+/fleet/**/secrets.yaml
+/fleet/**/private.yml
+/fleet/**/private.yaml

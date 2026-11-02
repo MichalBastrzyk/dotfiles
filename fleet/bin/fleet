@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+COMMAND="${1:-help}"
+HOST="${2:-ms-a2}"
+
+usage() {
+  cat <<'HELP'
+Fleet — Ubuntu Server setup
+
+  ./fleet/bin/fleet bootstrap [host]   Install Ansible and apply
+  ./fleet/bin/fleet check [host]       Syntax + dry-run; external repos skipped
+  ./fleet/bin/fleet apply [host]       Apply idempotent Ansible roles
+  ./fleet/bin/fleet doctor             Inspect Linux, networking and KVM
+
+Host profiles live in fleet/hosts; initial profile: ms-a2.
+Run check/apply locally on Ubuntu, not from macOS.
+HELP
+}
+
+case "$COMMAND" in
+  help|-h|--help) usage; exit 0 ;;
+  doctor) exec "$ROOT/bin/doctor.sh" ;;
+  bootstrap) exec "$ROOT/bootstrap.sh" "$HOST" ;;
+  check|apply) ;;
+  *) usage >&2; exit 2 ;;
+esac
+
+if [[ ! "$HOST" =~ ^[a-zA-Z0-9_-]+$ || ! -f "$ROOT/hosts/$HOST.yml" ]]; then
+  echo "Unknown Fleet host profile: $HOST" >&2
+  exit 2
+fi
+if [[ "$(id -u)" -eq 0 ]]; then
+  echo "Run as your normal user, not root." >&2
+  exit 1
+fi
+if ! command -v ansible-playbook >/dev/null 2>&1; then
+  echo "Ansible is missing. Run: ./fleet/bin/fleet bootstrap $HOST" >&2
+  exit 1
+fi
+
+export ANSIBLE_CONFIG="$ROOT/ansible.cfg"
+PLAYBOOK="$ROOT/playbooks/ubuntu-server.yml"
+if [[ "$COMMAND" == "check" ]]; then
+  ansible-playbook -i 'localhost,' -c local -e "fleet_host=$HOST" --syntax-check "$PLAYBOOK"
+  exec ansible-playbook -i 'localhost,' -c local -e "fleet_host=$HOST" \
+    --become --ask-become-pass --check --diff "$PLAYBOOK"
+fi
+exec ansible-playbook -i 'localhost,' -c local -e "fleet_host=$HOST" \
+  --become --ask-become-pass "$PLAYBOOK"

@@ -1,0 +1,36 @@
+name: Fleet validation
+on:
+  pull_request:
+    paths:
+      - "fleet/**"
+      - "justfile"
+      - ".local/bin/switch.sh"
+      - ".stow-local-ignore"
+      - ".github/workflows/fleet.yml"
+  push:
+    branches:
+      - master
+    paths:
+      - "fleet/**"
+      - "justfile"
+      - ".github/workflows/fleet.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible-core just
+      - name: Check shell syntax
+        run: |
+          bash -n fleet/bootstrap.sh fleet/bin/fleet fleet/bin/doctor.sh
+          sh -n .local/bin/switch.sh
+      - name: Check Just recipes
+        run: just --list
+      - name: Validate Ansible syntax
+        env:
+          ANSIBLE_CONFIG: fleet/ansible.cfg
+        run: ansible-playbook -i localhost, -c local -e fleet_host=ms-a2 --syntax-check fleet/playbooks/ubuntu-server.yml
