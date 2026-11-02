@@ -1,0 +1,33 @@
+---
+- name: Set up a Fleet Ubuntu development server
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars_files:
+    - "../hosts/{{ fleet_host | default('ms-a2') }}.yml"
+  vars:
+    fleet_admin_user: "{{ lookup('env', 'USER') }}"
+  pre_tasks:
+    - name: Require a supported Ubuntu version and AMD64 architecture
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['distribution'] == 'Ubuntu'
+          - ansible_facts['distribution_version'] is version('24.04', '>=')
+          - ansible_facts['architecture'] == 'x86_64'
+          - fleet_admin_user not in ['', 'root']
+        fail_msg: "Run Fleet as a regular user on Ubuntu 24.04+ x86_64."
+  roles:
+    - role: base
+      tags: [base]
+    - role: development
+      tags: [development]
+    - role: docker
+      when: fleet_enable_docker | bool
+      tags: [docker]
+    - role: tailscale
+      when: fleet_enable_tailscale | bool
+      tags: [tailscale]
+    - role: kvm
+      when: fleet_enable_kvm | bool
+      tags: [kvm]

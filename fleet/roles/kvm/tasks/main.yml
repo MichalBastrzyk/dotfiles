@@ -1,0 +1,20 @@
+---
+- name: Install KVM diagnostic tools
+  ansible.builtin.apt:
+    name:
+      - cpu-checker
+      - qemu-kvm
+    state: present
+
+- name: Ensure kvm group exists
+  ansible.builtin.group:
+    name: kvm
+    state: present
+  when: not ansible_check_mode
+
+- name: Allow the main user to access KVM
+  ansible.builtin.user:
+    name: "{{ fleet_admin_user }}"
+    groups: kvm
+    append: true
+  when: not ansible_check_mode

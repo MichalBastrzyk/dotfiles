@@ -8,3 +8,8 @@ LICENSE
 .config/vscode
 keybinds
 preferences.terminal
+# Fleet metadata must never become symlinks in $HOME
+^fleet$
+^docs$
+^justfile$
+^\.github$

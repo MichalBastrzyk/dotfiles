@@ -1,0 +1,25 @@
+---
+- name: Install development and diagnostics packages
+  ansible.builtin.apt:
+    name:
+      - bat
+      - btop
+      - build-essential
+      - dnsutils
+      - ethtool
+      - fd-find
+      - fzf
+      - gh
+      - htop
+      - jq
+      - just
+      - neovim
+      - pciutils
+      - pipx
+      - pkg-config
+      - ripgrep
+      - tmux
+      - tree
+      - usbutils
+      - zsh
+    state: present

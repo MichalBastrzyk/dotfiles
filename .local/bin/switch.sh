@@ -1,4 +1,15 @@
-DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
+#!/bin/sh
+# Keep compatibility with both ~/dotfiles and ~/fleet.
+if [ -n "${FLEET_DIR:-}" ]; then
+  DOTFILES_DIR="$FLEET_DIR"
+elif [ -n "${DOTFILES_DIR:-}" ]; then
+  :
+elif [ -f "$HOME/fleet/Brewfile" ]; then
+  DOTFILES_DIR="$HOME/fleet"
+else
+  DOTFILES_DIR="$HOME/dotfiles"
+fi
+
 
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'

@@ -1,0 +1,8 @@
+# The first Fleet machine. Copy this file to add another Ubuntu server.
+fleet_hostname: ms-a2
+fleet_enable_docker: true
+fleet_enable_tailscale: true
+fleet_enable_kvm: true
+fleet_enable_sbx: false
+# Adding a user to docker grants root-equivalent host access; off by default.
+fleet_allow_docker_group: false
